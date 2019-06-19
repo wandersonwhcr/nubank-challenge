@@ -2,7 +2,7 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.json :as json]
-            [ring.util.response :as response]
+            [ring.util.response :refer :all]
             [balance.util :refer :all]
             [balance.service.users :as users]))
 
@@ -15,8 +15,8 @@
     (let
       ;; Keep Identifier at First Position
       [data (merge {:id (generate-uuid)} body)]
-      (response/header
-        (response/created (users/save data))
+      (header
+        (created (users/save data))
         "X-Resource-Identifier"
         (get data :id))))
 
@@ -25,16 +25,16 @@
       (response (users/by id))
       (catch Exception e
         (case (get (ex-data e) :type)
-          :user-not-found (response/not-found (ex-data e))
-          (response/status {} 500)))))
+          :user-not-found (not-found (ex-data e))
+          (status {} 500)))))
 
   (DELETE "/v1/users/:id" [id]
     (try
-      (response/status (response (users/delete id)) 204)
+      (status (response (users/delete id)) 204)
       (catch Exception e
         (case (get (ex-data e) :type)
-          :user-not-found (response/not-found (ex-data e))
-          (response/status {} 500)))))
+          :user-not-found (not-found (ex-data e))
+          (status {} 500)))))
 
   (route/not-found (response {:message "Not Found"})))
 
