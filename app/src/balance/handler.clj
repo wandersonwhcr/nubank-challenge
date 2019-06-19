@@ -13,12 +13,12 @@
 
   (POST "/v1/users" {:keys [body]}
     (let
-      ;; Keep Identifier at First Position
-      [data (merge {:id (generate-uuid)} body)]
-      (header
+      [data (set-uuid body)]
+      (try
         (created (users/save data))
-        "X-Resource-Identifier"
-        (get data :id))))
+        (catch Exception e
+          (case (:type (ex-data e))
+            :user-invalid-data (unprocessable-entity (ex-data e)))))))
 
   (GET "/v1/users/:id" [id]
     (try
