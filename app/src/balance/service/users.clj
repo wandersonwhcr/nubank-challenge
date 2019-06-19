@@ -2,12 +2,12 @@
 (ns balance.service.users
   (:require [struct.core :as st]))
 
-;;; Users Data HashMap
+;;; Users Bucket
 (def ^:private users {})
 
-;;; User Scheme
+;;; Users Scheme
 (def ^:private scheme
-  {:name [st/required st/string]})
+  {:id [st/required st/uuid-str], :name [st/required st/string]})
 
 ;;; Show Users
 (defn fetch [] (vals users))
