@@ -10,7 +10,7 @@
 ;;; Check a User by Identifier
 (defn check [id]
   (when (not (contains? users id))
-    (throw (RuntimeException. (str "Unknown User " id)))))
+    (throw (ex-info "Unknown User" {:id id}))))
 
 ;;; Show a User by Identifier
 (defn by [id] (do

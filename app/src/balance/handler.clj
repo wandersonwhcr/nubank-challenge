@@ -20,12 +20,15 @@
         "X-Resource-Identifier"
         (get data :id))))
 
-  (GET "/v1/users/:id" [id] (response (users/by id)))
+  (GET "/v1/users/:id" [id]
+    (try
+      (response (users/by id))
+      (catch Exception e (response/not-found (ex-data e)))))
 
   (DELETE "/v1/users/:id" [id]
-    (response/status
-      (response (users/delete id))
-      204))
+    (try
+      (response/status (response (users/delete id)) 204)
+      (catch Exception e (response/not-found (ex-data e)))))
 
   (route/not-found (response {:message "Not Found"})))
 
