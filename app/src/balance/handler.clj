@@ -12,6 +12,9 @@
 (defn save-user [data] (do
   (def users (assoc users (get data :id) data))
   nil))
+(defn delete-user [id] (do
+  (def users (dissoc users id))
+  nil))
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
@@ -21,6 +24,7 @@
     (let
       [data (merge {:id (generate-uuid)} body)]
       (response (save-user data))))
+  (DELETE "/v1/users/:id" [id] (response (delete-user id)))
   (route/not-found (response {:message "Not Found"})))
 
 (def app (->
