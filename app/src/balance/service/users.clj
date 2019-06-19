@@ -12,7 +12,6 @@
 
 ;;; Save a User into Data HashMap
 (defn save-user [data] (do
-  ;; Keep Identifier at First Position
   (def users (assoc users (get data :id) data))
   nil))
 
