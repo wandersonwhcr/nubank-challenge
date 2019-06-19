@@ -2,7 +2,7 @@
 (ns balance.service.users)
 
 ;;; Users Data HashMap
-(def users {})
+(def ^:private users {})
 
 ;;; Show Users
 (defn fetch [] (vals users))
