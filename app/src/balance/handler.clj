@@ -4,25 +4,23 @@
             [ring.middleware.json :as json]
             [ring.util.response :refer [response]]))
 
-(def users {})
-
 (defn generate-uuid [] (.toString (java.util.UUID/randomUUID)))
 
+(def users {})
 (defn get-users [] (vals users))
-
 (defn get-user [id] (get users id))
-
 (defn save-user [data] (do
-  (def user
-    (merge {:id (generate-uuid)} data))
-  (def users (assoc users (get user :id) user))
+  (def users (assoc users (get data :id) data))
   nil))
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
   (GET "/v1/users" [] (response (get-users)))
   (GET "/v1/users/:id" [id] (response (get-user id)))
-  (POST "/v1/users" {:keys [body]} (response (save-user body)))
+  (POST "/v1/users" {:keys [body]}
+    (let
+      [data (merge {:id (generate-uuid)} body)]
+      (response (save-user data))))
   (route/not-found (response {:message "Not Found"})))
 
 (def app (->
