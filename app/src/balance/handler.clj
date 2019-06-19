@@ -4,16 +4,17 @@
             [ring.middleware.json :as json]
             [ring.util.response :refer [response]]))
 
-(def users {
-  "abc123" {:id "abc123" :name "John Doe"}
-  "xyz456" {:id "xyz456" :name "João da Silva"}})
+(def users {})
+
+(defn generate-uuid [] (.toString (java.util.UUID/randomUUID)))
 
 (defn get-users [] (vals users))
 
 (defn get-user [id] (get users id))
 
 (defn save-user [data] (do
-  (def user (assoc data :id (.toString (java.util.UUID/randomUUID))))
+  (def user
+    (merge {:id (generate-uuid)} data))
   (def users (assoc users (get user :id) user))
   nil))
 
