@@ -5,17 +5,17 @@
 (def users {})
 
 ;;; Show Users
-(defn get-users [] (vals users))
+(defn fetch [] (vals users))
 
 ;;; Show a User by Identifier
-(defn get-user [id] (get users id))
+(defn by [id] (get users id))
 
 ;;; Save a User into Data HashMap
-(defn save-user [data] (do
+(defn save [data] (do
   (def users (assoc users (get data :id) data))
   nil))
 
 ;;; Delete a User by Identifier
-(defn delete-user [id] (do
+(defn delete [id] (do
   (def users (dissoc users id))
   nil))

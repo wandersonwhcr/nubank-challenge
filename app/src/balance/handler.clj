@@ -8,14 +8,14 @@
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
-  (GET "/v1/users" [] (response (get-users)))
-  (GET "/v1/users/:id" [id] (response (get-user id)))
+  (GET "/v1/users" [] (response (users/fetch)))
+  (GET "/v1/users/:id" [id] (response (users/by id)))
   (POST "/v1/users" {:keys [body]}
     (let
       ;; Keep Identifier at First Position
       [data (merge {:id (generate-uuid)} body)]
-      (response (save-user data))))
-  (DELETE "/v1/users/:id" [id] (response (delete-user id)))
+      (response (users/save data))))
+  (DELETE "/v1/users/:id" [id] (response (users/delete id)))
   (route/not-found (response {:message "Not Found"})))
 
 (def app (->
