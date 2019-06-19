@@ -6,7 +6,7 @@
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
-  (route/not-found "Not Found"))
+  (route/not-found (response {:message "Not Found"})))
 
 (def app (->
   app-routes
