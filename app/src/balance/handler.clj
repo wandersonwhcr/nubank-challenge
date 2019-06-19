@@ -23,12 +23,18 @@
   (GET "/v1/users/:id" [id]
     (try
       (response (users/by id))
-      (catch Exception e (response/not-found (ex-data e)))))
+      (catch Exception e
+        (case (get (ex-data e) :type)
+          :user-not-found (response/not-found (ex-data e))
+          (response/status {} 500)))))
 
   (DELETE "/v1/users/:id" [id]
     (try
       (response/status (response (users/delete id)) 204)
-      (catch Exception e (response/not-found (ex-data e)))))
+      (catch Exception e
+        (case (get (ex-data e) :type)
+          :user-not-found (response/not-found (ex-data e))
+          (response/status {} 500)))))
 
   (route/not-found (response {:message "Not Found"})))
 
