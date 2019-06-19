@@ -13,7 +13,8 @@
 (defn get-user [id] (get users id))
 
 (defn save-user [data] (do
-  (def users (assoc users "def789" data))
+  (def user (assoc data :id (.toString (java.util.UUID/randomUUID))))
+  (def users (assoc users (get user :id) user))
   nil))
 
 (defroutes app-routes
