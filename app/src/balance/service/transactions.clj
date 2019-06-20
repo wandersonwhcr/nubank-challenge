@@ -1,9 +1,8 @@
 ;;;; Transactions Service Layer
 (ns balance.service.transactions
-  (:require [json-schema.core :as json]))
-
-;;; Transactions Bucket
-(def ^:private transactions (atom {}))
+  (:require
+    [json-schema.core :as json]
+    [balance.bucket :refer [transactions]]))
 
 ;;; Transactions Schema
 (def ^:private schema {:type "object"
