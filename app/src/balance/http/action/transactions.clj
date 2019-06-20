@@ -19,4 +19,5 @@
 
 (defn find [user-id transaction-id] (-> user-id
   (users-service/find)
+  (transactions-service/findByUser transaction-id)
   (response)))

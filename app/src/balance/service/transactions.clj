@@ -5,11 +5,16 @@
 ;;; Transactions Bucket
 (def ^:private transactions (atom {}))
 
+;; Check a Transaction by Identifier
+(defn ^:private has? [id]
+  (when (not (contains? @transactions id))
+    (throw (ex-info "Unknown Transaction" {:type :transaction-not-found, :id id}))))
+
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
   ; Only Transactions for User
   (filter (fn [transaction] (= (:id user) (:userId transaction))))
-  ; Remover User Identifier from Element
+  ; Remove User Identifier from Element
   (map (fn [transaction] (dissoc transaction :userId)))))
 
 ;;; Save Transactions
@@ -20,3 +25,8 @@
   (swap! transactions assoc (:id data)))
   ; Saved Data
   (identity data));
+
+;;; Show a Transaction by User by Identifier
+(defn findByUser [user id] (do
+  (has? id)
+  (dissoc (get @transactions id) :userId)))
