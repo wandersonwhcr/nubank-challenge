@@ -10,8 +10,8 @@
 
   (GET "/v1/users" [] (users-action/fetch))
   (POST "/v1/users" {:keys [body]} (users-action/save body))
-  (GET "/v1/users/:id" [id] (users-action/find id))
-  (DELETE "/v1/users/:id" [id] (users-action/delete id))
+  (GET "/v1/users/:user-id" [user-id] (users-action/find user-id))
+  (DELETE "/v1/users/:user-id" [user-id] (users-action/delete user-id))
 
   (route/not-found (response {:message "Not Found"})))
 
