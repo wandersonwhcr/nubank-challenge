@@ -6,3 +6,10 @@
 
 ;;; Configure an UUID on Element
 (defn set-uuid [data] (merge {:id (generate-uuid)} data))
+
+;;; Coalesce
+(defn coalesce [& args]
+  ;; Return First Element From
+  (first
+    ;; Convert `args` to non-nil List Elements
+    (keep identity args)))
