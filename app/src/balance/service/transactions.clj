@@ -10,6 +10,12 @@
   (when (not (contains? @transactions id))
     (throw (ex-info "Unknown Transaction" {:type :transaction-not-found, :id id}))))
 
+;; Check a Transaction by User
+(defn ^:private hasByUser? [user id]
+  (when (has? id)
+    (when (not (= (:id user) (:userId (get @transactions id)))))
+      (throw (ex-info "Unknown Transaction" {:type :transaction-not-found, :id id}))))
+
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
   ; Only Transactions for User
@@ -28,5 +34,5 @@
 
 ;;; Show a Transaction by User by Identifier
 (defn findByUser [user id] (do
-  (has? id)
+  (hasByUser? user id)
   (dissoc (get @transactions id) :userId)))
