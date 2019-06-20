@@ -23,7 +23,6 @@
   (try
     (json/validate schema data)
     (catch Exception e
-;      (throw (ex-info "Invalid Data" {:type :user-invalid-data :validation (ex-data e)})))))
       (throw (ex-info "Invalid Data" (merge {:type :user-invalid-data} (ex-data e)))))))
 
 ;;; Show Users
