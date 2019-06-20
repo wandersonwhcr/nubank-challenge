@@ -37,9 +37,9 @@
 ;;; Save a User into Data HashMap
 (defn save [data] (do
   (valid? data)
-  (swap! users assoc (:id data) data)))
+  (swap! users assoc (:id data) data)) nil)
 
 ;;; Delete a User by Identifier
 (defn delete [id] (do
   (has? id)
-  (swap! users dissoc id)))
+  (swap! users dissoc id)) nil)
