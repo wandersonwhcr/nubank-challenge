@@ -6,4 +6,4 @@
 (def ^:private transactions (atom {}))
 
 ;;; Show Transactions
-(defn fetch [] (coalesce (vals @transactions) []))
+(defn fetchByUser [user] (coalesce (vals @transactions) []))
