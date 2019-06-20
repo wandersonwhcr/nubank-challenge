@@ -4,7 +4,7 @@
   (:require [json-schema.core :as json]))
 
 ;;; Users Bucket
-(def ^:private users {})
+(def ^:private users (atom {}))
 
 ;;; Users Schema
 (def ^:private schema {:type "object"
@@ -15,7 +15,7 @@
 
 ;;; Check a User by Identifier
 (defn ^:private has? [id]
-  (when (not (contains? users id))
+  (when (not (contains? @users id))
     (throw (ex-info "Unknown User" {:type :user-not-found, :id id}))))
 
 ;;; Validate a User Data
@@ -27,19 +27,19 @@
       (throw (ex-info "Invalid Data" (merge {:type :user-invalid-data} (ex-data e)))))))
 
 ;;; Show Users
-(defn fetch [] (vals users))
+(defn fetch [] (vals @users))
 
 ;;; Show a User by Identifier
 (defn find [id] (do
   (has? id)
-  (get users id)))
+  (get @users id)))
 
 ;;; Save a User into Data HashMap
 (defn save [data] (do
   (valid? data)
-  (def users (assoc users (get data :id) data)) nil))
+  (swap! users assoc (:id data) data)))
 
 ;;; Delete a User by Identifier
 (defn delete [id] (do
   (has? id)
-  (def users (dissoc users id)) nil))
+  (swap! users dissoc id)))
