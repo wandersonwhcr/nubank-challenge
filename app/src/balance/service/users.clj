@@ -1,7 +1,9 @@
 ;;;; Users Service Layer
 (ns balance.service.users
   (:refer-clojure :exclude [find])
-  (:require [struct.core :as st]))
+  (:require
+    [struct.core :as st]
+    [json-schema.core :as json]))
 
 ;;; Users Bucket
 (def ^:private users {})
@@ -10,6 +12,13 @@
 (def ^:private scheme
   {:id [st/required st/uuid-str], :name [st/required st/string]})
 
+;;; Users JSON Schema
+(def ^:private schema {:type "object"
+                       :properties {:id {:type "string" :pattern "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"}
+                                    :name {:type "string"}}
+                       :additionalProperties false
+                       :required [:id :name]})
+
 ;;; Check a User by Identifier
 (defn ^:private has? [id]
   (when (not (contains? users id))
@@ -17,9 +26,11 @@
 
 ;;; Validate a User Data
 (defn ^:private valid? [data]
-  (def validation (-> data (st/validate scheme)))
-  (when (get validation 0)
-    (throw (ex-info "Invalid Data" {:type :user-invalid-data, :validation (get validation 0)}))))
+  (try
+    (json/validate schema data)
+    (catch Exception e
+;      (throw (ex-info "Invalid Data" {:type :user-invalid-data :validation (ex-data e)})))))
+      (throw (ex-info "Invalid Data" (merge {:type :user-invalid-data} (ex-data e)))))))
 
 ;;; Show Users
 (defn fetch [] (vals users))
