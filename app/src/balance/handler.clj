@@ -19,6 +19,8 @@
   (GET "/v1/users/:user-id/transactions/:transaction-id" [user-id transaction-id] (transactions-action/find user-id transaction-id))
   (DELETE "/v1/users/:user-id/transactions/:transaction-id" [user-id transaction-id] (transactions-action/delete user-id transaction-id))
 
+  (GET "/v1/users/:user-id/balance" [user-id] (response nil))
+
   (route/not-found (response {:message "Not Found"})))
 
 (def app (->
