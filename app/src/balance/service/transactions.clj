@@ -8,3 +8,6 @@
 ;;; Show Transactions
 (defn fetchByUser [user]
   (filter (fn [transaction] (= (:id user) (:userId transaction))) @transactions))
+
+;;; Save Transactions
+(defn saveByUser [user data] (identity data))
