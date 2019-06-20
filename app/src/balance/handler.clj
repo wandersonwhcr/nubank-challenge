@@ -13,6 +13,8 @@
   (GET "/v1/users/:user-id" [user-id] (users-action/find user-id))
   (DELETE "/v1/users/:user-id" [user-id] (users-action/delete user-id))
 
+  (GET "/v1/users/:user-id/transactions" [] (response []))
+
   (route/not-found (response {:message "Not Found"})))
 
 (def app (->
