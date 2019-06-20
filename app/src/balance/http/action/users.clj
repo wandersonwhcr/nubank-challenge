@@ -30,7 +30,9 @@
 
 (defn delete [id]
   (try
-    (do (users-service/delete id) (no-content))
+    (do
+      (users-service/delete id)
+      (no-content))
     (catch Exception e
       (case (:type (ex-data e))
         :user-not-found (not-found (ex-data e))

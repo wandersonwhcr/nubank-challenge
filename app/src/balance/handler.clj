@@ -3,10 +3,7 @@
             [compojure.route :as route]
             [ring.middleware.json :as json]
             [ring.util.response :refer :all]
-            [balance.util :refer :all]
-            [balance.http.response :refer :all]
-            [balance.http.action.users :as users-action]
-            [balance.service.users :as users-service]))
+            [balance.http.action.users :as users-action]))
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
