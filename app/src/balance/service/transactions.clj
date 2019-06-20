@@ -9,20 +9,27 @@
 (def ^:private schema {:type "object"
                        :properties {:id {:type "string" :pattern "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"}
                                     :type {:type "string" :enum ["in" "out"]}
-                                    :value {:type "number" :multipleOf 0.01 :exclusiveMinimum 0}}
+                                    :value {:type "number" :multipleOf 0.01 :minimum 0 :exclusiveMinimum true}}
                        :additionalProperties false
                        :required [:id :type]})
 
-;; Check a Transaction by Identifier
+;;; Check a Transaction by Identifier
 (defn ^:private has? [id]
   (when (not (contains? @transactions id))
     (throw (ex-info "Unknown Transaction" {:type :transaction-not-found, :id id}))))
 
-;; Check a Transaction by User
+;;; Check a Transaction by User
 (defn ^:private hasByUser? [user id]
   (when (has? id)
     (when (not (= (:id user) (:userId (get @transactions id)))))
       (throw (ex-info "Unknown Transaction" {:type :transaction-not-found, :id id}))))
+
+;;; Validate a Transaction Data
+(defn ^:private valid? [data]
+  (try
+    (json/validate schema data)
+    (catch Exception e
+      (throw (ex-info "Invalid Data" (merge {:type :transaction-invalid-data} (ex-data e)))))))
 
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
@@ -33,6 +40,8 @@
 
 ;;; Save Transactions
 (defn saveByUser [user data] (->> data
+  ; Valid?
+  (valid?)
   ; Configure User Identifier
   (merge {:userId (:id user)})
   ; Store Transaction
