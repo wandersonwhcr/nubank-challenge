@@ -14,7 +14,7 @@
   (GET "/v1/users/:user-id" [user-id] (users-action/find user-id))
   (DELETE "/v1/users/:user-id" [user-id] (users-action/delete user-id))
 
-  (GET "/v1/users/:user-id/transactions" [] (transactions-action/fetch))
+  (GET "/v1/users/:user-id/transactions" [user-id] (transactions-action/fetch user-id))
 
   (route/not-found (response {:message "Not Found"})))
 
