@@ -4,6 +4,7 @@
     [ring.util.response :refer :all]
     [balance.http.response :refer :all]
     [balance.service.users :as users-service]
+    [balance.service.transactions :as transactions-service]
     [balance.service.balances :as balances-service]))
 
 (defn find [request]
@@ -11,7 +12,8 @@
     (-> request
       (get-in [:params :user-id])
       (users-service/find)
-      (balances-service/findByUser)
+      (transactions-service/fetchByUser)
+      (balances-service/findByTransactions)
       (response))
     (catch Exception e
       (case (:type (ex-data e))

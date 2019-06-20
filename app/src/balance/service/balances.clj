@@ -2,4 +2,4 @@
 (ns balance.service.balances)
 
 ;;; Show Balance by User
-(defn findByUser [user] (identity nil))
+(defn findByTransactions [transactions] (identity transactions))
