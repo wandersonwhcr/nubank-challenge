@@ -5,12 +5,13 @@
             [ring.util.response :refer :all]
             [balance.util :refer :all]
             [balance.http.response :refer :all]
-            [balance.service.users :as users]))
+            [balance.http.action.users :as users-action]
+            [balance.service.users :as users-service]))
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
 
-  (GET "/v1/users" [] (response (users/fetch)))
+  (GET "/v1/users" [] (usersa/fetch))
 
   (POST "/v1/users" {:keys [body]}
     (let
