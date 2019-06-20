@@ -13,7 +13,7 @@
       (get-in [:params :user-id])
       (users-service/find)
       (transactions-service/fetchByUser)
-      (balances-service/findByTransactions)
+      (balances-service/calculate)
       (response))
     (catch Exception e
       (case (:type (ex-data e))
