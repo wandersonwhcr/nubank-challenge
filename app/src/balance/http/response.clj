@@ -5,8 +5,8 @@
 (defn saved [resource]
   (header (status nil 204) "X-Resource-Identifier" (:id resource)))
 ;;; Response as No Content
-(defn no-content [] (status nil 204))
+(defn no-content [& args] (status nil 204))
 ;;; Response as Unprocessable Entity
 (defn unprocessable-entity [content] (status (response content) 422))
 ;;; Response as Internal Error
-(defn internal-error [] (status nil 500))
+(defn internal-error [& args] (status nil 500))

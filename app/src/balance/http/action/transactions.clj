@@ -25,4 +25,4 @@
 (defn delete [user-id transaction-id] (-> user-id
   (users-service/find)
   (transactions-service/deleteByUser transaction-id)
-  (response)))
+  (no-content)))

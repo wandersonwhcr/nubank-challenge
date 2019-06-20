@@ -38,4 +38,7 @@
   (dissoc (get @transactions id) :userId)))
 
 ;;; Delete a Transaction by User by Identifier
-(defn deleteByUser [user id] (identity nil))
+(defn deleteByUser [user id] (do
+  (hasByUser? user id)
+  (swap! transactions dissoc id)
+  (identity nil)))
