@@ -4,6 +4,7 @@
             [ring.middleware.json :as json]
             [ring.util.response :refer :all]
             [balance.util :refer :all]
+            [balance.http.response :refer :all]
             [balance.service.users :as users]))
 
 (defroutes app-routes
