@@ -21,3 +21,7 @@
   (users-service/find)
   (transactions-service/findByUser transaction-id)
   (response)))
+
+(defn delete [user-id transaction-id] (-> user-id
+  (users-service/find)
+  (response)))
