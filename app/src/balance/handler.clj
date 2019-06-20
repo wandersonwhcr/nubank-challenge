@@ -15,26 +15,27 @@
     (let
       [data (set-uuid body)]
       (try
-        (created (users/save data))
+        (do (users/save data) (created-h "/v1/users" data))
         (catch Exception e
           (case (:type (ex-data e))
-            :user-invalid-data (unprocessable-entity (ex-data e)))))))
+            :user-invalid-data (unprocessable-entity (ex-data e))
+            (internal-error))))))
 
   (GET "/v1/users/:id" [id]
     (try
       (response (users/by id))
       (catch Exception e
-        (case (get (ex-data e) :type)
+        (case (:type (ex-data e))
           :user-not-found (not-found (ex-data e))
-          (status {} 500)))))
+          (internal-error)))))
 
   (DELETE "/v1/users/:id" [id]
     (try
-      (status (response (users/delete id)) 204)
+      (do (users/delete id) (no-content))
       (catch Exception e
-        (case (get (ex-data e) :type)
+        (case (:type (ex-data e))
           :user-not-found (not-found (ex-data e))
-          (status {} 500)))))
+          (internal-error)))))
 
   (route/not-found (response {:message "Not Found"})))
 
