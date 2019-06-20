@@ -30,9 +30,12 @@
   ; Store Transaction
   (swap! transactions assoc (:id data)))
   ; Saved Data
-  (identity data));
+  (identity data))
 
 ;;; Show a Transaction by User by Identifier
 (defn findByUser [user id] (do
   (hasByUser? user id)
   (dissoc (get @transactions id) :userId)))
+
+;;; Delete a Transaction by User by Identifier
+(defn deleteByUser [user id] (identity nil))
