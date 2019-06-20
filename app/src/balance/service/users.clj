@@ -1,18 +1,12 @@
 ;;;; Users Service Layer
 (ns balance.service.users
   (:refer-clojure :exclude [find])
-  (:require
-    [struct.core :as st]
-    [json-schema.core :as json]))
+  (:require [json-schema.core :as json]))
 
 ;;; Users Bucket
 (def ^:private users {})
 
-;;; Users Scheme
-(def ^:private scheme
-  {:id [st/required st/uuid-str], :name [st/required st/string]})
-
-;;; Users JSON Schema
+;;; Users Schema
 (def ^:private schema {:type "object"
                        :properties {:id {:type "string" :pattern "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"}
                                     :name {:type "string"}}
