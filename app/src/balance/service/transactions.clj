@@ -1,9 +1,17 @@
 ;;;; Transactions Service Layer
 (ns balance.service.transactions
-  (:require [balance.util :refer :all]))
+  (:require [json-schema.core :as json]))
 
 ;;; Transactions Bucket
 (def ^:private transactions (atom {}))
+
+;;; Transactions Schema
+(def ^:private schema {:type "object"
+                       :properties {:id {:type "string" :pattern "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"}
+                                    :type {:type "string" :enum ["in" "out"]}
+                                    :value {:type "number" :multipleOf 0.01 :exclusiveMinimum 0}}
+                       :additionalProperties false
+                       :required [:id :type]})
 
 ;; Check a Transaction by Identifier
 (defn ^:private has? [id]
