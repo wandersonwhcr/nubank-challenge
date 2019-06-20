@@ -7,7 +7,8 @@
 
 ;;; Show Transactions
 (defn fetchByUser [user]
-  (filter (fn [transaction] (= (:id user) (:userId transaction))) @transactions))
+  (filter (fn [transaction] (= (:id user) (:userId transaction))) (vals @transactions)))
 
 ;;; Save Transactions
-(defn saveByUser [user data] (identity data))
+(defn saveByUser [user data]
+  (swap! transactions assoc (:id data) (merge data {:userId (:id user)})))
