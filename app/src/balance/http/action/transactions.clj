@@ -9,3 +9,8 @@
   users-service/find
   transactions-service/fetchByUser
   response))
+
+(defn save [user-id] (->
+  user-id
+  users-service/find
+  response))

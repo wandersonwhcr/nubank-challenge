@@ -15,7 +15,7 @@
   (DELETE "/v1/users/:user-id" [user-id] (users-action/delete user-id))
 
   (GET "/v1/users/:user-id/transactions" [user-id] (transactions-action/fetch user-id))
-  (POST "/v1/users/:user-id/transactions" [user-id] (status nil 201))
+  (POST "/v1/users/:user-id/transactions" [user-id] (transactions-action/save user-id))
 
   (route/not-found (response {:message "Not Found"})))
 
