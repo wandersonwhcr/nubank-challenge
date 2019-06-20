@@ -3,7 +3,8 @@
             [compojure.route :as route]
             [ring.middleware.json :as json]
             [ring.util.response :refer :all]
-            [balance.http.action.users :as users-action]))
+            [balance.http.action.users :as users-action]
+            [balance.http.action.transactions :as transactions-action]))
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
@@ -13,7 +14,7 @@
   (GET "/v1/users/:user-id" [user-id] (users-action/find user-id))
   (DELETE "/v1/users/:user-id" [user-id] (users-action/delete user-id))
 
-  (GET "/v1/users/:user-id/transactions" [] (response []))
+  (GET "/v1/users/:user-id/transactions" [] (transactions-action/fetch))
 
   (route/not-found (response {:message "Not Found"})))
 
