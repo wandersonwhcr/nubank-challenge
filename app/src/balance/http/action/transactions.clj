@@ -1,4 +1,5 @@
 (ns balance.http.action.transactions
+  (:refer-clojure :exclude [find])
   (:require
     [ring.util.response :refer :all]
     [balance.util :refer :all]
@@ -15,3 +16,7 @@
   (users-service/find)
   (transactions-service/saveByUser (set-uuid data))
   (saved)))
+
+(defn find [user-id transaction-id] (-> user-id
+  (users-service/find)
+  (response)))
