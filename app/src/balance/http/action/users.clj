@@ -1,4 +1,5 @@
 (ns balance.http.action.users
+  (:refer-clojure :exclude [find])
   (:require
     [balance.util :refer :all]
     [ring.util.response :refer :all]
@@ -20,9 +21,9 @@
           :user-invalid-data (unprocessable-entity (ex-data e))
           (internal-error))))))
 
-(defn by [id]
+(defn find [id]
   (try
-    (response (users-service/by id))
+    (response (users-service/find id))
     (catch Exception e
       (case (:type (ex-data e))
         :user-not-found (not-found (ex-data e))
