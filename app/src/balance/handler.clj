@@ -4,7 +4,8 @@
             [ring.middleware.json :as json]
             [ring.util.response :refer :all]
             [balance.http.action.users :as users-action]
-            [balance.http.action.transactions :as transactions-action]))
+            [balance.http.action.transactions :as transactions-action]
+            [balance.http.action.balances :as balances-action]))
 
 (defroutes app-routes
   (GET "/" [] (response {:message "Hello World"}))
@@ -19,7 +20,7 @@
   (GET "/v1/users/:user-id/transactions/:transaction-id" [user-id transaction-id] (transactions-action/find user-id transaction-id))
   (DELETE "/v1/users/:user-id/transactions/:transaction-id" [user-id transaction-id] (transactions-action/delete user-id transaction-id))
 
-  (GET "/v1/users/:user-id/balance" [user-id] (response nil))
+  (GET "/v1/users/:user-id/balance" request (balances-action/find request))
 
   (route/not-found (response {:message "Not Found"})))
 
