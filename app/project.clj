@@ -5,6 +5,7 @@
                  [compojure "1.6.1"]
                  [ring/ring-defaults "0.3.2"]
                  [ring/ring-json "0.4.0"]
+                 [funcool/decimal "1.0.2"]
                  [luposlip/json-schema "0.1.6"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler balance.handler/app :open-browser? false}
