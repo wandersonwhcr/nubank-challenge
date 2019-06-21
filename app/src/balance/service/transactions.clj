@@ -2,7 +2,8 @@
 (ns balance.service.transactions
   (:require
     [json-schema.core :as json]
-    [balance.bucket :refer [transactions]]))
+    [balance.bucket :refer [transactions]]
+    [balance.calculator :as bc]))
 
 ;;; Transactions Locker
 (def ^:private locker (Object.))
@@ -35,7 +36,11 @@
 
 ;;; Store a Transaction
 (defn ^:private store [data]
-  (locking locker (swap! transactions assoc (:id data) data)))
+  (locking locker
+    (when
+      (> 0 (+ (bc/to-decimal data) (bc/calculate (vals @transactions))))
+      (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
+    (swap! transactions assoc (:id data) data)))
 
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
