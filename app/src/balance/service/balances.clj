@@ -8,4 +8,4 @@
     ;; Calculate Balance
     (bc/calculate)
     ;; Summary
-    (assoc {} :total)))
+    (assoc {} :balance)))
