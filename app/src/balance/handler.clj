@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [ring.middleware.json :as json]
             [ring.util.response :refer :all]
+            [ring.logger :as logger]
             [balance.http.action.users :as users-action]
             [balance.http.action.transactions :as transactions-action]
             [balance.http.action.balances :as balances-action]))
@@ -24,7 +25,7 @@
 
   (route/not-found (response {:message "Not Found"})))
 
-(def app (->
-  app-routes
+(def app (-> app-routes
+  (logger/wrap-with-logger)
   (json/wrap-json-body {:keywords? true})
-  json/wrap-json-response))
+  (json/wrap-json-response)))
