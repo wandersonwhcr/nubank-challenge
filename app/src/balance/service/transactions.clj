@@ -4,6 +4,9 @@
     [json-schema.core :as json]
     [balance.bucket :refer [transactions]]))
 
+;;; Transactions Locker
+(def ^:private locker (Object.))
+
 ;;; Transactions Schema
 (def ^:private schema {:type "object"
                        :properties {:id {:type "string" :pattern "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"}
@@ -30,8 +33,9 @@
     (catch Exception e
       (throw (ex-info "Invalid Data" (merge {:type :transaction-invalid-data} (ex-data e)))))))
 
+;;; Store a Transaction
 (defn ^:private store [data]
-  (swap! transactions assoc (:id data) data))
+  (locking locker (swap! transactions assoc (:id data) data)))
 
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
