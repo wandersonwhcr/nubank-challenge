@@ -35,18 +35,18 @@
       (throw (ex-info "Invalid Data" (merge {:type :transaction-invalid-data} (ex-data e)))))))
 
 ;;; Store a Transaction
-(defn ^:private store [data]
+(defn ^:private store [user data]
   (locking locker
     (when
-      (> 0 (+ (bc/calculate (vals @transactions)) (bc/to-decimal data)))
+      (> 0 (+ (bc/calculate (fetchByUser user)) (bc/to-decimal data)))
       (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
     (swap! transactions assoc (:id data) data)))
 
 ;;; Cancel a Transaction
-(defn ^:private cancel [id]
+(defn ^:private cancel [user id]
   (locking locker
     (when
-      (> 0 (- (bc/calculate (vals @transactions)) (bc/to-decimal (get @transactions id))))
+      (> 0 (- (bc/calculate (fetchByUser user)) (bc/to-decimal (get @transactions id))))
       (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
     (swap! transactions dissoc id)))
 
@@ -64,7 +64,7 @@
   ; Configure User Identifier
   (merge {:userId (:id user)})
   ; Store Transaction
-  (store))
+  (store user))
   ; Saved Data
   (identity data))
 
@@ -76,5 +76,5 @@
 ;;; Delete a Transaction by User by Identifier
 (defn deleteByUser [user id] (do
   (hasByUser? user id)
-  (cancel id)
+  (cancel user id)
   (identity nil)))
