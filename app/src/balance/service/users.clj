@@ -1,10 +1,9 @@
 ;;;; Users Service Layer
 (ns balance.service.users
   (:refer-clojure :exclude [find])
-  (:require [json-schema.core :as json]))
-
-;;; Users Bucket
-(def ^:private users (atom {}))
+  (:require
+    [json-schema.core :as json]
+    [balance.bucket :refer [users]]))
 
 ;;; Users Schema
 (def ^:private schema {:type "object"

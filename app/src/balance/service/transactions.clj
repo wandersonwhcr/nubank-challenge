@@ -1,9 +1,12 @@
 ;;;; Transactions Service Layer
 (ns balance.service.transactions
-  (:require [json-schema.core :as json]))
+  (:require
+    [json-schema.core :as json]
+    [balance.bucket :refer [transactions]]
+    [balance.calculator :as bc]))
 
-;;; Transactions Bucket
-(def ^:private transactions (atom {}))
+;;; Transactions Locker
+(def ^:private locker (Object.))
 
 ;;; Transactions Schema
 (def ^:private schema {:type "object"
@@ -31,6 +34,22 @@
     (catch Exception e
       (throw (ex-info "Invalid Data" (merge {:type :transaction-invalid-data} (ex-data e)))))))
 
+;;; Store a Transaction
+(defn ^:private store [user data]
+  (locking locker
+    (when
+      (> 0 (+ (bc/calculate (fetchByUser user)) (bc/to-decimal data)))
+      (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
+    (swap! transactions assoc (:id data) data)))
+
+;;; Cancel a Transaction
+(defn ^:private cancel [user id]
+  (locking locker
+    (when
+      (> 0 (- (bc/calculate (fetchByUser user)) (bc/to-decimal (get @transactions id))))
+      (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
+    (swap! transactions dissoc id)))
+
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
   ; Only Transactions for User
@@ -45,7 +64,7 @@
   ; Configure User Identifier
   (merge {:userId (:id user)})
   ; Store Transaction
-  (swap! transactions assoc (:id data)))
+  (store user))
   ; Saved Data
   (identity data))
 
@@ -57,5 +76,5 @@
 ;;; Delete a Transaction by User by Identifier
 (defn deleteByUser [user id] (do
   (hasByUser? user id)
-  (swap! transactions dissoc id)
+  (cancel user id)
   (identity nil)))

@@ -28,6 +28,7 @@
       (case (:type (ex-data e))
         :user-not-found (not-found (ex-data e))
         :transaction-invalid-data (unprocessable-entity (ex-data e))
+        :transaction-invalid-balance (unprocessable-entity (ex-data e))
         (internal-error)))))
 
 (defn find [user-id transaction-id]
@@ -52,4 +53,5 @@
       (case (:type (ex-data e))
         :user-not-found (not-found (ex-data e))
         :transaction-not-found (not-found (ex-data e))
+        :transaction-invalid-balance (unprocessable-entity (ex-data e))
         (internal-error)))))
