@@ -24,7 +24,6 @@
 
   (route/not-found (response {:message "Not Found"})))
 
-(def app (->
-  app-routes
+(def app (-> app-routes
   (json/wrap-json-body {:keywords? true})
-  json/wrap-json-response))
+  (json/wrap-json-response)))
