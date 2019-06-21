@@ -7,7 +7,9 @@
                  [ring/ring-json "0.4.0"]
                  [ring-logger "1.0.1"]
                  [luposlip/json-schema "0.1.6"]]
-  :plugins [[lein-ring "0.12.5"]]
+  :plugins [
+    [lein-ring "0.12.5"]
+    [lein-codox "0.10.7"]]
   :ring {:handler balance.handler/app :open-browser? false}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
