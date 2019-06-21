@@ -9,7 +9,7 @@
             [balance.http.action.balances :as balances-action]))
 
 (defroutes app-routes
-  (GET "/" [] (response {:message "Hello World"}))
+  (route/files "/doc" {:root "target/doc"})
 
   (GET "/v1/users" [] (users-action/fetch))
   (POST "/v1/users" {:keys [body]} (users-action/save body))
