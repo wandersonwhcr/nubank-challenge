@@ -38,13 +38,16 @@
 (defn ^:private store [data]
   (locking locker
     (when
-      (> 0 (+ (bc/to-decimal data) (bc/calculate (vals @transactions))))
+      (> 0 (+ (bc/calculate (vals @transactions)) (bc/to-decimal data)))
       (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
     (swap! transactions assoc (:id data) data)))
 
 ;;; Cancel a Transaction
 (defn ^:private cancel [id]
   (locking locker
+    (when
+      (> 0 (- (bc/calculate (vals @transactions)) (bc/to-decimal (get @transactions id))))
+      (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
     (swap! transactions dissoc id)))
 
 ;;; Fetch Transactions by User
