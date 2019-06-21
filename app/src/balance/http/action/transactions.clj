@@ -28,7 +28,7 @@
       (case (:type (ex-data e))
         :user-not-found (not-found (ex-data e))
         :transaction-invalid-data (unprocessable-entity (ex-data e))
-        (internal-error)))))
+        (println e)))))
 
 (defn find [user-id transaction-id]
   (try

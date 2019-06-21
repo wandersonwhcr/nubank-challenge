@@ -30,6 +30,9 @@
     (catch Exception e
       (throw (ex-info "Invalid Data" (merge {:type :transaction-invalid-data} (ex-data e)))))))
 
+(defn ^:private store [data]
+  (swap! transactions assoc (:id data) data))
+
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
   ; Only Transactions for User
@@ -44,7 +47,7 @@
   ; Configure User Identifier
   (merge {:userId (:id user)})
   ; Store Transaction
-  (swap! transactions assoc (:id data)))
+  (store))
   ; Saved Data
   (identity data))
 
