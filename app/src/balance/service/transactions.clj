@@ -42,6 +42,11 @@
       (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
     (swap! transactions assoc (:id data) data)))
 
+;;; Cancel a Transaction
+(defn ^:private cancel [id]
+  (locking locker
+    (swap! transactions dissoc id)))
+
 ;;; Fetch Transactions by User
 (defn fetchByUser [user] (->> (vals @transactions)
   ; Only Transactions for User
@@ -68,5 +73,5 @@
 ;;; Delete a Transaction by User by Identifier
 (defn deleteByUser [user id] (do
   (hasByUser? user id)
-  (swap! transactions dissoc id)
+  (cancel id)
   (identity nil)))
