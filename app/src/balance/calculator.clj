@@ -1,15 +1,16 @@
-;;;; Balance Calculator
-(ns balance.calculator)
+(ns balance.calculator
+  "Balance Calculator")
 
-;;; Coerce Transaction to Value
-(defn to-decimal [transaction] (if (= (:type transaction) "in") (:value transaction) (- (:value transaction))))
+(defn to-decimal
+  "Convert one transaction to decimal value"
+  [transaction] (if (= (:type transaction) "in") (:value transaction) (- (:value transaction))))
 
-;;; Calculate Balance by Transactions
-(defn calculate [transactions]
-  (->> transactions
-    ;; Transform: "in = value positive" | "out = value negative"
+(defn calculate
+  "Calculate balance using a transactions list"
+  [transactions] (->> transactions
+    ; Transform: "in = value positive" | "out = value negative"
     (map to-decimal)
-    ;; Transform: Values to BigDecimal
+    ; Transform: Float to BigDecimal
     (map (fn [value] (bigdec value)))
-    ;; Summation
+    ; Summation
     (reduce +)))
