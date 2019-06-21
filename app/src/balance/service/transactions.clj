@@ -34,6 +34,13 @@
     (catch Exception e
       (throw (ex-info "Invalid Data" (merge {:type :transaction-invalid-data} (ex-data e)))))))
 
+;;; Fetch Transactions by User
+(defn fetchByUser [user] (->> (vals @transactions)
+  ; Only Transactions for User
+  (filter (fn [transaction] (= (:id user) (:userId transaction))))
+  ; Remove User Identifier from Element
+  (map (fn [transaction] (dissoc transaction :userId)))))
+
 ;;; Store a Transaction
 (defn ^:private store [user data]
   (locking locker
@@ -49,13 +56,6 @@
       (> 0 (- (bc/calculate (fetchByUser user)) (bc/to-decimal (get @transactions id))))
       (throw (ex-info "Invalid Data" {:type :transaction-invalid-balance :errors ["#/value: without balance for transaction"]})))
     (swap! transactions dissoc id)))
-
-;;; Fetch Transactions by User
-(defn fetchByUser [user] (->> (vals @transactions)
-  ; Only Transactions for User
-  (filter (fn [transaction] (= (:id user) (:userId transaction))))
-  ; Remove User Identifier from Element
-  (map (fn [transaction] (dissoc transaction :userId)))))
 
 ;;; Save Transactions
 (defn saveByUser [user data] (->> data
