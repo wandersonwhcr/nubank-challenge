@@ -9,7 +9,7 @@
             [balance.http.action.balances :as balances-action]))
 
 (defroutes app-routes
-  (GET "/" [] (response {:project "balance" :description "Balance with Clojure" :version "1.0.0-alpha"}))
+  (GET "/" [] (response {:project "balance" :version "1.0.0-alpha"}))
 
   (GET "/v1/users" [] (users-action/fetch))
   (POST "/v1/users" {:keys [body]} (users-action/save body))
