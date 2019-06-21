@@ -9,7 +9,7 @@
             [balance.http.action.balances :as balances-action]))
 
 (defroutes app-routes
-  (GET "/" [] (response {:message "Hello World"}))
+  (GET "/" [] (response {:project "balance" :version "1.0.0-alpha"}))
 
   (GET "/v1/users" [] (users-action/fetch))
   (POST "/v1/users" {:keys [body]} (users-action/save body))
@@ -23,6 +23,7 @@
 
   (GET "/v1/users/:user-id/balance" request (balances-action/find request))
 
+  (route/files "/doc" {:root "target/doc"})
   (route/not-found (response {:message "Not Found"})))
 
 (def app (-> app-routes

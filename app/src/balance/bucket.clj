@@ -1,8 +1,10 @@
-;;; Balance RAM Bucket
-(ns balance.bucket)
+(ns ^:no-doc balance.bucket
+  "Balance Buckets")
 
-;;; Users Bucket
-(def users (atom {}))
+(def users
+  "Users Bucket"
+  (atom {}))
 
-;;; Transactions Bucket
-(def transactions (atom {}))
+(def transactions
+  "Transactions Bucket"
+  (atom {}))
