@@ -8,7 +8,10 @@
       (is (= 204 (response :status)))
       (is (contains? response :headers))
       (is (contains? response :body))))
-  (testing "unprocessable-entity response"
+  (testing "unprocessable-entity response without body"
+    (let [response (unprocessable-entity)]
+      (is (= 422 (response :status)))))
+  (testing "unprocessable-entity response with body"
     (let [response (unprocessable-entity {:message "Something Happened"})]
       (is (= 422 (response :status)))
       (is (contains? response :headers))

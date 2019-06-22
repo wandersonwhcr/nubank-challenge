@@ -8,4 +8,5 @@
 
 (defn unprocessable-entity
   "HTTP 422 Unprocessable Entity"
-  [body] (status (response body) 422))
+  ([] (unprocessable-entity nil))
+  ([body] (status (response body) 422)))
