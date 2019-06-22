@@ -1,12 +1,17 @@
 (ns balance.service.users
   "Balance Users Service Layer"
-  (:refer-clojure :exclude [find]))
+  (:refer-clojure :exclude [find])
+  (:require [json-schema.core :as json]))
 
 (defrecord User [id name])
 
 (def ^:private ^:no-doc bucket
   "User Bucket"
   nil)
+
+(def ^:private schema
+  "User Schema Validation"
+  (slurp "src/balance/schema/users.json"))
 
 (defn set-bucket
   "Configures Current User Bucket"
@@ -38,4 +43,4 @@
 
 (defn valid?
   "Validates User"
-  [user] true)
+  [user] (json/validate schema user))
