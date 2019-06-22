@@ -46,4 +46,12 @@
       (save (->Transaction id "IN" 1.0))
       (is (= 1 (count (fetch))))
       (is (= id (delete id)))
-      (is (= 0 (count (fetch)))))))
+      (is (= 0 (count (fetch))))))
+
+  (testing "validate"
+    (is (validate (->Transaction (uuid) "IN" 1.0)))
+    (is (thrown? Exception (validate (->Transaction "" "" 0))))
+    (is (thrown? Exception (validate (->Transaction "" "IN" 1.0))))
+    (is (thrown? Exception (validate (->Transaction (uuid) "" 1.0))))
+    (is (thrown? Exception (validate (->Transaction (uuid) "IN" 0))))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->Transaction "" "" 0))))))

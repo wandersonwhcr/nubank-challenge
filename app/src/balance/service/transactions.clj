@@ -1,12 +1,17 @@
 (ns balance.service.transactions
   "Balance Transactions Service Layer"
-  (:refer-clojure :exclude [find]))
+  (:refer-clojure :exclude [find])
+  (:require [json-schema.core :as json]))
 
 (defrecord Transaction [id type value])
 
 (def ^:private ^:no-doc bucket
   "Transaction Bucket"
   nil)
+
+(def ^:private schema
+  "Transaction Schema Validation"
+  (slurp "src/balance/schema/transactions.json"))
 
 (defn set-bucket
   "Configures Current Transaction Bucket"
@@ -37,3 +42,14 @@
   (do
     (swap! bucket dissoc id)
     (identity id)))
+
+(defn validate
+  "Validates Transaction"
+  [transaction]
+  (try
+    (json/validate schema transaction)
+    (catch Exception e (->>
+      (ex-data e)
+      (merge {:type :transaction-invalid-data})
+      (ex-info "Invalid Data")
+      (throw)))))

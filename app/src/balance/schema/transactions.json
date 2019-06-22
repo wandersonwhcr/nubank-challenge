@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["IN", "OUT"]
+    },
+    "value": {
+      "type": "number",
+      "multipleOf": 0.01,
+      "minimum": 0,
+      "exclusiveMinimum": true
+    }
+  },
+  "additionalParameters": false,
+  "required": ["id", "type", "value"]
+}
