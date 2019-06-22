@@ -3,5 +3,6 @@
             [balance.service.users :refer :all]))
 
 (deftest test-users
-  (testing "fetch users"
-    (is true)))
+  (testing "set-bucket"
+    (let [bucket (atom {})]
+      (is (nil? (set-bucket bucket))))))
