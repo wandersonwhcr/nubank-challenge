@@ -48,10 +48,7 @@
   [id]
   (do
     (when (not (contains? @bucket id))
-      (->>
-        {:type :user-unknown-identifier :id id}
-        (ex-info "Unknown Identifier")
-        (throw)))
+      (throw (ex-info "Unknown Identifier" {:type :user-unknown-identifier :id id})))
     (get @bucket id)))
 
 (defn delete
