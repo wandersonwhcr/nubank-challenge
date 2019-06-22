@@ -8,7 +8,8 @@
 (defroutes app-routes
   (GET "/" [] (home/index))
 
-  (GET "/v1/users" [] (users/index))
+  (GET "/v1/users" [] (users/fetch))
+  (POST "/v1/users" request (users/save request))
 
   (route/not-found nil))
 
