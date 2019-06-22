@@ -47,6 +47,11 @@
     (swap! bucket assoc (:id transaction) transaction)
     (identity transaction)))
 
+(defn save-by-user
+  "Saves Transaction by User"
+  [user transaction]
+  (save transaction))
+
 (defn has?
   "Has User by Identifier?"
   [id]

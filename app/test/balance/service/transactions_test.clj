@@ -110,4 +110,10 @@
         (save transactionB)
         (is (= (:id transactionA) (delete-by-user user (:id transactionA))))
         (is (= (:id transactionB) (delete-by-user user (:id transactionB))))
-        (is (= 0 (count (fetch-by-user user))))))))
+        (is (= 0 (count (fetch-by-user user)))))))
+
+  (testing "save by user"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (let [transaction (->Transaction (uuid) (:id user) "IN" 1.0)]
+        (set-bucket bucket)
+        (is (= transaction (save-by-user user transaction)))))))
