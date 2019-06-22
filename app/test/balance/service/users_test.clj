@@ -31,4 +31,11 @@
       (save userB)
       (is (= 2 (count (fetch))))
       (is (= userA (find (:id userA))))
-      (is (= userB (find (:id userB)))))))
+      (is (= userB (find (:id userB))))))
+  (testing "save and delete"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (set-bucket bucket)
+      (save user)
+      (is (= 1 (count (fetch))))
+      (is (= user (delete user)))
+      (is (= 0 (count (fetch)))))))

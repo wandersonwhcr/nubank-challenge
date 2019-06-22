@@ -29,3 +29,9 @@
 (defn find
   "Find User by Identifier"
   [id] (get @bucket id))
+
+(defn delete
+  "Delete User"
+  [user] (do
+    (swap! bucket dissoc (:id user))
+    (identity user)))
