@@ -3,8 +3,6 @@
   (:refer-clojure :exclude [find])
   (:require [json-schema.core :as json]))
 
-(defrecord Transaction [id type value])
-
 (def ^:private ^:no-doc bucket
   "Transaction Bucket"
   nil)

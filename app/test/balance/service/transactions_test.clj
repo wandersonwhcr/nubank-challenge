@@ -2,15 +2,11 @@
   (:refer-clojure :exclude [find])
   (:require [clojure.test :refer :all]
             [balance.util :refer [uuid]]
-            [balance.service.transactions :refer :all]))
+            [balance.service.transactions :refer :all]
+            [balance.record :refer :all])
+  (:import [balance.record Transaction]))
 
 (deftest test-transactions
-  (testing "Transaction Record"
-    (let [id (uuid)]
-      (let [transaction (->Transaction id "IN" 1.99)]
-        (is (= id (:id transaction)))
-        (is (= "IN" (:type transaction)))
-        (is (= 1.99 (:value transaction))))))
 
   (testing "set-bucket"
     (let [bucket (atom {})]

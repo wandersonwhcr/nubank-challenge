@@ -3,7 +3,8 @@
   (:require [clojure.test :refer :all]
             [balance.util :refer [uuid]]
             [balance.balance.calculator :refer :all]
-            [balance.service.transactions :refer :all]))
+            [balance.record :refer :all])
+  (:import [balance.record Transaction]))
 
 (deftest test-calculator
   (testing "to-decimal"
