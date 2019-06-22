@@ -30,3 +30,10 @@
 (defn find
   "Finds Transaction by Identifier"
   [id] (get @bucket id))
+
+(defn delete
+  "Deletes Transaction by Identifier"
+  [id]
+  (do
+    (swap! bucket dissoc id)
+    (identity id)))

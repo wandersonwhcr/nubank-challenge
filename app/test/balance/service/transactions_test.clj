@@ -38,4 +38,12 @@
       (save transactionB)
       (is (= 2 (count (fetch))))
       (is (= transactionA (find (:id transactionA))))
-      (is (= transactionB (find (:id transactionB)))))))
+      (is (= transactionB (find (:id transactionB))))))
+
+  (testing "save and delete"
+    (let [bucket (atom {}) id (uuid)]
+      (set-bucket bucket)
+      (save (->Transaction id "IN" 1.0))
+      (is (= 1 (count (fetch))))
+      (is (= id (delete id)))
+      (is (= 0 (count (fetch)))))))
