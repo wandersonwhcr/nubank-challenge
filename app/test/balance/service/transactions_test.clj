@@ -9,4 +9,9 @@
       (let [transaction (->Transaction id "IN" 1.99)]
         (is (= id (:id transaction)))
         (is (= "IN" (:type transaction)))
-        (is (= 1.99 (:value transaction)))))))
+        (is (= 1.99 (:value transaction))))))
+
+  (testing "set-bucket"
+    (let [bucket (atom {})]
+      (set-bucket bucket)
+      (is (= bucket (get-bucket))))))
