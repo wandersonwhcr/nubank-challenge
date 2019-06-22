@@ -1,7 +1,7 @@
 (ns balance.service.users
   "Balance Users Service Layer")
 
-(defrecord User [name])
+(defrecord User [id name])
 
 (def ^:private ^:no-doc bucket
   "User Bucket"
@@ -17,8 +17,10 @@
 
 (defn fetch
   "Fetch Users"
-  [] [])
+  [] (vals @bucket))
 
 (defn save
   "Save User"
-  [user] user)
+  [user] (do
+    (swap! bucket assoc (:id user) user)
+    (identity user)))

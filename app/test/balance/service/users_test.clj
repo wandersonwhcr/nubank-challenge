@@ -1,10 +1,11 @@
 (ns balance.service.users-test
   (:require [clojure.test :refer :all]
+            [balance.util :refer [uuid]]
             [balance.service.users :refer :all]))
 
 (deftest test-users
   (testing "User"
-    (let [user (->User "John Doe")]
+    (let [user (->User (uuid) "John Doe")]
       (is (= "John Doe" (:name user)))))
   (testing "set-bucket"
     (let [bucket (atom {})]
@@ -15,7 +16,8 @@
       (set-bucket bucket)
       (is (= 0 (count (fetch))))))
   (testing "save"
-    (let [bucket (atom {}) user (->User "John Doe")]
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
       (set-bucket bucket)
       (is (= 0 (count (fetch))))
-      (is (= user (save user))))))
+      (is (= user (save user)))
+      (is (= 1 (count (fetch)))))))
