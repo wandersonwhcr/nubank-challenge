@@ -54,4 +54,16 @@
       (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "John Doe"})))]
         (let [response-delete (app (-> (mock/request :delete (get-in response-save [:headers "Location"]))))]
           (is (= 204 (:status response-delete)))
-          (is (nil? (:body response-delete))))))))
+          (is (nil? (:body response-delete)))))))
+
+  (testing "save and delete and find"
+    (let [users-bucket (atom {})]
+      (users-service/set-bucket users-bucket)
+      (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "John Doe"})))]
+        (let [response-delete (app (-> (mock/request :delete (get-in response-save [:headers "Location"]))))]
+          (let [response-find (app (-> (mock/request :get (get-in response-save [:headers "Location"]))))]
+            (is (= 404 (:status response-find)))
+            (is (string? (:body response-find)))
+            (let [content (json/read-str (:body response-find))]
+              (is (map? content))
+              (is (contains? content "id")))))))))

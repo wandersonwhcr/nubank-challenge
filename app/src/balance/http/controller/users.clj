@@ -26,11 +26,16 @@
 (defn find
   "Find Action"
   [request]
-  (->
-    (:params request)
-    (:user-id)
-    (users-service/find)
-    (response)))
+  (try
+    (->
+      (:params request)
+      (:user-id)
+      (users-service/find)
+      (response))
+    (catch Exception e
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        (internal-error)))))
 
 (defn delete
   "Delete Action"
