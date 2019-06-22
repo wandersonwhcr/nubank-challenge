@@ -19,3 +19,8 @@
     (reduce +)
     ; Going Back to Float
     (.floatValue)))
+
+(defn validate
+  "Validate if Transaction is Valid into Balance"
+  [current transactions]
+  (identity current))
