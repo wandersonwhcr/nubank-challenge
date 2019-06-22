@@ -1,4 +1,4 @@
 (ns balance.service.transactions
   "Balance Transactions Service Layer")
 
-(defrecord Transaction [type])
+(defrecord Transaction [type value])
