@@ -4,4 +4,4 @@
 
 (defn index
   "Index Action"
-  [] (response ""))
+  [] (response "[]"))

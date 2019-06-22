@@ -8,4 +8,6 @@
   (testing "users controller at index action"
     (let [response (app (mock/request :get "/v1/users"))]
       (is (= 200 (:status response)))
-      (is (string? (:body response))))))
+      (is (string? (:body response)))
+      (let [content (json/read-str (:body response))]
+        (is (vector? content))))))
