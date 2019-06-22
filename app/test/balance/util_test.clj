@@ -13,11 +13,11 @@
   (testing "set"
     (let [element (set-uuid {})]
       (is (contains? element :id))
-      (is (string? (element :id)))
-      (is (re-matches #"^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$" (element :id)))))
+      (is (string? (:id element)))
+      (is (re-matches #"^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$" (:id element)))))
   (testing "random uuid"
     (let [elementA (set-uuid {}) elementB (set-uuid {})]
-      (is (not (= (elementA :id) (elementB :id))))))
+      (is (not (= (:id elementA) (:id elementB))))))
   (testing "assoc"
     (let [element (set-uuid {:name "John Doe"})]
       (is (contains? element :name)))))
