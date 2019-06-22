@@ -28,4 +28,14 @@
       (is (= 0 (count (fetch))))
       (is (= transaction (save transaction)))
       (is (= 1 (count (fetch))))
-      (is (= transaction (find (:id transaction)))))))
+      (is (= transaction (find (:id transaction))))))
+
+  (testing "fetch and save multiple"
+    (let [bucket (atom {}) transactionA (->Transaction (uuid) "IN" 0.01) transactionB (->Transaction (uuid) "OUT" 0.02)]
+      (set-bucket bucket)
+      (is (= 0 (count (fetch))))
+      (save transactionA)
+      (save transactionB)
+      (is (= 2 (count (fetch))))
+      (is (= transactionA (find (:id transactionA))))
+      (is (= transactionB (find (:id transactionB)))))))
