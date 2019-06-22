@@ -1,6 +1,7 @@
 (ns balance.balance.calculator-test
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+            [balance.balance.calculator :refer :all]))
 
 (deftest test-calculator
-  (testing "dumb"
-    (is true)))
+  (testing "to-decimal"
+    (is (= 1 (to-decimal)))))
