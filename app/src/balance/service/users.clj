@@ -28,4 +28,4 @@
 
 (defn find
   "Find User by Identifier"
-  [id] nil)
+  [id] (get @bucket id))

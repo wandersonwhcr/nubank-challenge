@@ -22,4 +22,4 @@
       (is (= 0 (count (fetch))))
       (is (= user (save user)))
       (is (= 1 (count (fetch))))
-      (is (nil? (find (:id user)))))))
+      (is (= user (find (:id user)))))))
