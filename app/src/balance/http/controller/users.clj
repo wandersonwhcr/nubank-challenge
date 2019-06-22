@@ -1,5 +1,6 @@
 (ns balance.http.controller.users
   "Balance HTTP Controller for Users"
+  (:refer-clojure :exclude [find])
   (:require [ring.util.response :refer :all]
             [balance.service.users :as users-service]
             [balance.record :refer :all]
@@ -21,3 +22,12 @@
       (map->User)
       (users-service/save))
     (created (str "/v1/users/" id))))
+
+(defn find
+  "Find Action"
+  [request]
+  (->
+    (:params request)
+    (:user-id)
+    (users-service/find)
+    (response)))

@@ -10,6 +10,7 @@
 
   (GET "/v1/users" [] (users/fetch))
   (POST "/v1/users" request (users/save request))
+  (GET "/v1/users/:user-id" request (users/find request))
 
   (route/not-found nil))
 
