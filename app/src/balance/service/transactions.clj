@@ -63,11 +63,10 @@
 (defn find-by-user
   "Finds Transaction by User by Identifier"
   [user id]
-  (do
-    (has? id)
-    (when (not (= (:id user) (:user-id (get @bucket id))))
+  (let [transaction (find id)]
+    (when (not (= (:id user) (:user-id transaction)))
       (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id})))
-    (get @bucket id)))
+    (identity transaction)))
 
 (defn delete
   "Deletes Transaction by Identifier"
@@ -80,9 +79,7 @@
 (defn delete-by-user
   "Deletes Transaction by User by Identifier"
   [user id]
-  (do
-    (has? id)
-    (when (not (= (:id user) (:user-id (get @bucket id))))
-      (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifiera :id id})))
-    (swap! bucket dissoc id)
-    (identity id)))
+  (let [transaction (find-by-user user id)]
+    (when (not (= (:id user) (:user-id transaction)))
+      (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id})))
+    (delete id)))
