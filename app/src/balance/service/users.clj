@@ -41,6 +41,6 @@
     (swap! bucket dissoc (:id user))
     (identity user)))
 
-(defn valid?
+(defn validate
   "Validates User"
   [user] (json/validate schema user))

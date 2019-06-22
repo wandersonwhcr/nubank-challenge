@@ -40,5 +40,6 @@
       (is (= user (delete user)))
       (is (= 0 (count (fetch))))))
   (testing "valid"
-    (is (valid? (->User (uuid) "John Doe")))
-    (is (not (valid? (->User "" "John Doe"))))))
+    (is (validate (->User (uuid) "John Doe")))
+    (is (thrown? Exception (validate (->User "" "John Doe"))))
+    (is (thrown? Exception (validate (->User (uuid) ""))))))
