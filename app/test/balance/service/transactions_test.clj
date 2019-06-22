@@ -19,4 +19,11 @@
   (testing "fetch"
     (let [bucket (atom {})]
       (set-bucket bucket)
-      (is (= 0 (count (fetch)))))))
+      (is (= 0 (count (fetch))))))
+
+  (testing "fetch and save"
+    (let [bucket (atom {}) transaction (->Transaction (uuid) "IN" 0.01)]
+      (set-bucket bucket)
+      (is (= 0 (count (fetch))))
+      (is (= transaction (save transaction)))
+      (is (= 1 (count (fetch)))))))

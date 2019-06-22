@@ -18,3 +18,10 @@
 (defn fetch
   "Fetches Transactions"
   [] (vals @bucket))
+
+(defn save
+  "Saves Transaction"
+  [transaction]
+  (do
+    (swap! bucket assoc (:id transaction) transaction)
+    (identity transaction)))
