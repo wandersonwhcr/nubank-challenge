@@ -22,5 +22,5 @@
 
 (defn validate
   "Validate if Transaction is Valid into Balance"
-  [current transactions]
+  [transactions current]
   (identity current))

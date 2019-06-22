@@ -22,4 +22,4 @@
   (testing "validate"
     (let [balance [(->Transaction (uuid) (uuid) "IN" 1.0)
                    (->Transaction (uuid) (uuid) "IN" 2.0)]]
-      (is (validate (->Transaction (uuid) (uuid) "IN" 3.0) balance)))))
+      (is (validate balance (->Transaction (uuid) (uuid) "IN" 3.0))))))
