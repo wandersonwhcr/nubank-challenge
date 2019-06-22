@@ -4,7 +4,7 @@
             [balance.util :refer [uuid]]
             [balance.service.transactions :refer :all]
             [balance.record :refer :all])
-  (:import [balance.record Transaction]))
+  (:import [balance.record User Transaction]))
 
 (deftest test-transactions
 
@@ -70,4 +70,12 @@
       (set-bucket bucket)
       (save transaction)
       (is (delete (:id transaction)))
-      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (delete (uuid)))))))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (delete (uuid))))))
+
+  (testing "fetch by user"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (set-bucket bucket)
+      (save (->Transaction (uuid) (:id user) "IN" 1.0))
+      (save (->Transaction (uuid) (:id user) "IN" 2.0))
+      (save (->Transaction (uuid) (uuid) "IN" 3.0))
+      (is (= 2 (count (fetch-by-user user)))))))
