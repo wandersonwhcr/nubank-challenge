@@ -3,4 +3,7 @@
 
 (defn to-decimal
   "Converts a Transaction Record to Decimal"
-  [transaction] 1.99)
+  [transaction]
+  (case (:type transaction)
+    "IN" (:value transaction)
+    "OUT" (- (:value transaction))))
