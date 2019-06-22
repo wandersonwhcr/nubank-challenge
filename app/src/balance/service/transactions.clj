@@ -1,7 +1,8 @@
 (ns balance.service.transactions
   "Balance Transactions Service Layer"
   (:refer-clojure :exclude [find])
-  (:require [json-schema.core :as json]))
+  (:require [json-schema.core :as json]
+            [balance.balance.calculator :as calculator]))
 
 (def ^:private ^:no-doc bucket
   "Transaction Bucket"
@@ -10,6 +11,10 @@
 (def ^:private schema
   "Transaction Schema Validation"
   (slurp "src/balance/schema/transactions.json"))
+
+(def ^:private locker
+  "Transaction Locker"
+  (Object.))
 
 (defn set-bucket
   "Configures Current Transaction Bucket"
@@ -50,7 +55,10 @@
 (defn save-by-user
   "Saves Transaction by User"
   [user transaction]
-  (save transaction))
+  (locking locker
+    (let [transactions (fetch-by-user user)]
+      (calculator/validate (conj transactions transaction))
+      (save transaction))))
 
 (defn has?
   "Has User by Identifier?"
@@ -85,6 +93,7 @@
   "Deletes Transaction by User by Identifier"
   [user id]
   (let [transaction (find-by-user user id)]
-    (when (not (= (:id user) (:user-id transaction)))
-      (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id})))
-    (delete id)))
+    (locking locker
+      (let [transactions (fetch-by-user user)]
+        (calculator/validate (filter #(not (= (:id transaction) (:id %))) transactions))
+        (delete id)))))
