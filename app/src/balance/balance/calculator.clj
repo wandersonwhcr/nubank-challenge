@@ -7,3 +7,7 @@
   (case (:type transaction)
     "IN" (:value transaction)
     "OUT" (- (:value transaction))))
+
+(defn calculate
+  "Calculates Balance for Transactions"
+  [] 0)
