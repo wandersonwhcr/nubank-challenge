@@ -10,4 +10,12 @@
 
 (defn calculate
   "Calculates Balance for Transactions"
-  [] 0)
+  [transactions] (->> transactions
+    ; Convert Records to Decimals
+    (map to-decimal)
+    ; Using BigDecimals to avoid Floating Point Problems
+    (map bigdec)
+    ; Summation
+    (reduce +)
+    ; Going Back to Float
+    (.floatValue)))

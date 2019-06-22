@@ -8,4 +8,5 @@
     (is (= 1.99 (to-decimal (->Transaction "IN" 1.99))))
     (is (= -1.99 (to-decimal (->Transaction "OUT" 1.99)))))
   (testing "calculate"
-    (is (= 0 (calculate)))))
+    (let [transactions [(->Transaction "IN" 1.0) (->Transaction "IN" 2.0)]]
+      (is (= 3.0 (calculate transactions))))))
