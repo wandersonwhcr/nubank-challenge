@@ -23,4 +23,7 @@
 (defn validate
   "Validate if Transaction is Valid into Balance"
   [transactions current]
-  (identity current))
+  (do
+    (when (> 0.0 (calculate (conj transactions current)))
+      (throw (ex-info "Invalid Data" {:type :calculator-invalid-data :id (:id current)}))))
+    (identity current))
