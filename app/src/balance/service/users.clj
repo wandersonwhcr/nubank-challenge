@@ -12,3 +12,7 @@
 (defn get-bucket
   "Access Current User Bucket"
   [] bucket)
+
+(defn fetch
+  "Fetch Users"
+  [] [])

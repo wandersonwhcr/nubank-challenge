@@ -6,4 +6,8 @@
   (testing "set-bucket"
     (let [bucket (atom {})]
       (set-bucket bucket)
-      (is (= bucket (get-bucket))))))
+      (is (= bucket (get-bucket)))))
+  (testing "fetch"
+    (let [bucket (atom {})]
+      (set-bucket bucket)
+      (is (= 0 (count (fetch)))))))
