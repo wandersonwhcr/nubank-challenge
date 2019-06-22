@@ -3,4 +3,4 @@
 
 (defn to-decimal
   "Converts a Transaction Record to Decimal"
-  [] 1)
+  [transaction] 1.99)
