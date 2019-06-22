@@ -3,8 +3,6 @@
   (:refer-clojure :exclude [find])
   (:require [json-schema.core :as json]))
 
-(defrecord User [id name])
-
 (def ^:private ^:no-doc bucket
   "User Bucket"
   nil)

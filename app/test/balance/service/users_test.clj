@@ -2,7 +2,9 @@
   (:refer-clojure :exclude [find])
   (:require [clojure.test :refer :all]
             [balance.util :refer [uuid]]
-            [balance.service.users :refer :all]))
+            [balance.service.users :refer :all]
+            [balance.record :refer :all])
+  (:import [balance.record User]))
 
 (deftest test-users
   (testing "User Record"
