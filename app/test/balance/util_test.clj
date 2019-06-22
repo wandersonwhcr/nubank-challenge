@@ -4,7 +4,8 @@
 
 (deftest test-util
   (testing "uuid"
-    (is (string? (uuid))))
+    (is (string? (uuid)))
+    (is (re-matches #"^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$" (uuid))))
   (testing "set"
     (let [element (set-uuid {})]
       (is (contains? element :id))
