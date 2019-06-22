@@ -7,11 +7,6 @@
   (:import [balance.record User]))
 
 (deftest test-users
-  (testing "User Record"
-    (let [id (uuid)]
-      (let [user (->User id "John Doe")]
-        (is (= id (:id user)))
-        (is (= "John Doe" (:name user))))))
 
   (testing "set-bucket"
     (let [bucket (atom {})]
