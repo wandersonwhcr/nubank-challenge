@@ -54,4 +54,9 @@
     (is (thrown? Exception (validate (->Transaction "" "IN" 1.0))))
     (is (thrown? Exception (validate (->Transaction (uuid) "" 1.0))))
     (is (thrown? Exception (validate (->Transaction (uuid) "IN" 0))))
-    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->Transaction "" "" 0))))))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->Transaction "" "" 0)))))
+
+  (testing "save with invalid data"
+    (let [bucket (atom {})]
+      (set-bucket bucket)
+      (is (thrown-with-msg? Exception #"^Invalid Data$" (save (->Transaction "" "" 0)))))))

@@ -25,10 +25,22 @@
   "Fetches Transactions"
   [] (vals @bucket))
 
+(defn validate
+  "Validates Transaction"
+  [transaction]
+  (try
+    (json/validate schema transaction)
+    (catch Exception e (->>
+      (ex-data e)
+      (merge {:type :transaction-invalid-data})
+      (ex-info "Invalid Data")
+      (throw)))))
+
 (defn save
   "Saves Transaction"
   [transaction]
   (do
+    (validate transaction)
     (swap! bucket assoc (:id transaction) transaction)
     (identity transaction)))
 
@@ -42,14 +54,3 @@
   (do
     (swap! bucket dissoc id)
     (identity id)))
-
-(defn validate
-  "Validates Transaction"
-  [transaction]
-  (try
-    (json/validate schema transaction)
-    (catch Exception e (->>
-      (ex-data e)
-      (merge {:type :transaction-invalid-data})
-      (ex-info "Invalid Data")
-      (throw)))))
