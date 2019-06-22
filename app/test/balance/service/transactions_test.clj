@@ -74,8 +74,14 @@
 
   (testing "fetch by user"
     (let [bucket (atom {}) user (->User (uuid) "John Doe")]
-      (set-bucket bucket)
-      (save (->Transaction (uuid) (:id user) "IN" 1.0))
-      (save (->Transaction (uuid) (:id user) "IN" 2.0))
-      (save (->Transaction (uuid) (uuid) "IN" 3.0))
-      (is (= 2 (count (fetch-by-user user)))))))
+      (let [transactionA (->Transaction (uuid) (:id user) "IN" 1.0)
+            transactionB (->Transaction (uuid) (:id user) "IN" 2.0)
+            transactionC (->Transaction (uuid) (uuid) "IN" 3.0)]
+        (set-bucket bucket)
+        (save transactionA)
+        (save transactionB)
+        (save transactionC)
+        (is (= 2 (count (fetch-by-user user))))
+        (is (some #(= transactionA %) (fetch-by-user user)))
+        (is (some #(= transactionB %) (fetch-by-user user)))
+        (is (not (some #(= transactionC %) (fetch-by-user user))))))))
