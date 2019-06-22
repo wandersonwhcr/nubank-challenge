@@ -1,4 +1,5 @@
 (ns balance.balance.calculator-test
+  (:refer-clojure :exclude [find])
   (:require [clojure.test :refer :all]
             [balance.util :refer [uuid]]
             [balance.balance.calculator :refer :all]
