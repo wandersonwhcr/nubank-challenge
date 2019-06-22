@@ -46,7 +46,11 @@
 
 (defn find
   "Finds Transaction by Identifier"
-  [id] (get @bucket id))
+  [id]
+  (do
+    (when (not (contains? @bucket id))
+      (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id})))
+    (get @bucket id)))
 
 (defn delete
   "Deletes Transaction by Identifier"

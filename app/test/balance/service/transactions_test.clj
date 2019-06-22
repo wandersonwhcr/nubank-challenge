@@ -59,4 +59,11 @@
   (testing "save with invalid data"
     (let [bucket (atom {})]
       (set-bucket bucket)
-      (is (thrown-with-msg? Exception #"^Invalid Data$" (save (->Transaction "" "" 0)))))))
+      (is (thrown-with-msg? Exception #"^Invalid Data$" (save (->Transaction "" "" 0))))))
+
+  (testing "find with unknown identifier"
+    (let [bucket (atom {}) transaction (->Transaction (uuid) "IN" 1.0)]
+      (set-bucket bucket)
+      (save transaction)
+      (is (find (:id transaction)))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid)))))))
