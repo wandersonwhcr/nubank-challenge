@@ -5,9 +5,11 @@
             [balance.service.users :refer :all]))
 
 (deftest test-users
-  (testing "User"
-    (let [user (->User (uuid) "John Doe")]
-      (is (= "John Doe" (:name user)))))
+  (testing "User Record"
+    (let [id (uuid)]
+      (let [user (->User id "John Doe")]
+        (is (= id (:id user)))
+        (is (= "John Doe" (:name user))))))
 
   (testing "set-bucket"
     (let [bucket (atom {})]
