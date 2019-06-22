@@ -44,17 +44,23 @@
     (swap! bucket assoc (:id transaction) transaction)
     (identity transaction)))
 
+(defn has?
+  "Has User by Identifier?"
+  [id]
+  (when (not (contains? @bucket id))
+    (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id}))))
+
 (defn find
   "Finds Transaction by Identifier"
   [id]
   (do
-    (when (not (contains? @bucket id))
-      (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id})))
+    (has? id)
     (get @bucket id)))
 
 (defn delete
   "Deletes Transaction by Identifier"
   [id]
   (do
+    (has? id)
     (swap! bucket dissoc id)
     (identity id)))

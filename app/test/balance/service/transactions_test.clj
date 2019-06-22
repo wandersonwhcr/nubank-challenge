@@ -66,4 +66,11 @@
       (set-bucket bucket)
       (save transaction)
       (is (find (:id transaction)))
-      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid)))))))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid))))))
+
+  (testing "delete with unknown identifier"
+    (let [bucket (atom {}) transaction (->Transaction (uuid) "IN" 1.0)]
+      (set-bucket bucket)
+      (save transaction)
+      (is (delete (:id transaction)))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (delete (uuid)))))))
