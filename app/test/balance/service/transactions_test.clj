@@ -99,4 +99,15 @@
     (let [bucket (atom {}) user (->User (uuid) "John Doe")]
       (set-bucket bucket)
       (save (->Transaction (uuid) (:id user) "IN" 1.0))
-      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find-by-user user (uuid)))))))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find-by-user user (uuid))))))
+
+  (testing "delete by user"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (let [transactionA (->Transaction (uuid) (:id user) "IN" 1.0)
+            transactionB (->Transaction (uuid) (:id user) "IN" 2.0)]
+        (set-bucket bucket)
+        (save transactionA)
+        (save transactionB)
+        (is (= (:id transactionA) (delete-by-user user (:id transactionA))))
+        (is (= (:id transactionB) (delete-by-user user (:id transactionB))))
+        (is (= 0 (count (fetch-by-user user))))))))
