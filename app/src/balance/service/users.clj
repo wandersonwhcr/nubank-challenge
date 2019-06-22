@@ -18,3 +18,7 @@
 (defn fetch
   "Fetch Users"
   [] [])
+
+(defn save
+  "Save User"
+  [user] user)

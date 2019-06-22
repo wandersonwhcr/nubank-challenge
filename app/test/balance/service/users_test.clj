@@ -13,4 +13,9 @@
   (testing "fetch"
     (let [bucket (atom {})]
       (set-bucket bucket)
-      (is (= 0 (count (fetch)))))))
+      (is (= 0 (count (fetch))))))
+  (testing "save"
+    (let [bucket (atom {}) user (->User "John Doe")]
+      (set-bucket bucket)
+      (is (= 0 (count (fetch))))
+      (is (= user (save user))))))
