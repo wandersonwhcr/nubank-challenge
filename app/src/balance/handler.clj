@@ -4,7 +4,7 @@
             [ring.middleware.json :as json]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/" [] "")
   (route/not-found nil))
 
 (def app
