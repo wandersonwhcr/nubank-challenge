@@ -69,4 +69,16 @@
             (let [content (json/read-str (:body response-find))]
               (is (map? content))
               (is (contains? content "id"))
-              (is (= (get content "id") (get-in response-save [:headers "X-Resource-Identifier"]))))))))))
+              (is (= (get content "id") (get-in response-save [:headers "X-Resource-Identifier"])))))))))
+
+  (testing "save multiple"
+    (let [users-bucket (atom {})]
+      (users-service/set-bucket users-bucket)
+      (let [response-a-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "John Doe"})))]
+        (let [response-b-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "João da Silva"})))]
+          (let [response-fetch (app (-> (mock/request :get "/v1/users")))]
+            (is (= 200 (:status response-fetch)))
+            (is (string? (:body response-fetch)))
+            (let [content (json/read-str (:body response-fetch))]
+              (is (vector? content))
+              (is (= 2 (count content))))))))))
