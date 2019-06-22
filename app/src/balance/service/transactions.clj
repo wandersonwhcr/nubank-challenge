@@ -26,7 +26,7 @@
 (defn fetch-by-user
   "Fetches Transactions by User"
   [user]
-  (filter (fn [transaction] (= (:id user) (:user-id transaction))) (vals @bucket)))
+  (filter #(= (:id user) (:user-id %)) (vals @bucket)))
 
 (defn validate
   "Validates Transaction"
