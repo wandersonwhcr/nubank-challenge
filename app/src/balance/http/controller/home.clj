@@ -4,4 +4,4 @@
 
 (defn index
   "Index Action"
-  [] (response {}))
+  [] (response {:name "balance" :version "1.0.0-alpha"}))
