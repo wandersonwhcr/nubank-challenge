@@ -1,6 +1,8 @@
 (ns balance.service.users
   "Balance Users Service Layer")
 
+(defrecord User [name])
+
 (def ^:private ^:no-doc bucket
   "User Bucket"
   nil)
