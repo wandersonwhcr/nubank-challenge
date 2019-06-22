@@ -10,3 +10,7 @@
   "HTTP 422 Unprocessable Entity"
   ([] (unprocessable-entity nil))
   ([body] (status (response body) 422)))
+
+(defn internal-error
+  "HTTP 500 Internal Server Error"
+  [] (status (response nil) 500))
