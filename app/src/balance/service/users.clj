@@ -1,5 +1,6 @@
 (ns balance.service.users
-  "Balance Users Service Layer")
+  "Balance Users Service Layer"
+  (:refer-clojure :exclude [find]))
 
 (defrecord User [id name])
 
@@ -24,3 +25,7 @@
   [user] (do
     (swap! bucket assoc (:id user) user)
     (identity user)))
+
+(defn find
+  "Find User by Identifier"
+  [id] nil)

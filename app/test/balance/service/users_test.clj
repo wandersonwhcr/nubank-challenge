@@ -1,4 +1,5 @@
 (ns balance.service.users-test
+  (:refer-clojure :exclude [find])
   (:require [clojure.test :refer :all]
             [balance.util :refer [uuid]]
             [balance.service.users :refer :all]))
@@ -20,4 +21,5 @@
       (set-bucket bucket)
       (is (= 0 (count (fetch))))
       (is (= user (save user)))
-      (is (= 1 (count (fetch)))))))
+      (is (= 1 (count (fetch))))
+      (is (nil? (find (:id user)))))))
