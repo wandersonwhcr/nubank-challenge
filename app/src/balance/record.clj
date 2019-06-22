@@ -3,4 +3,4 @@
 
 (defrecord User [id name])
 
-(defrecord Transaction [id type value])
+(defrecord Transaction [id user-id type value])

@@ -5,6 +5,10 @@
       "type": "string",
       "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
     },
+    "user-id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
     "type": {
       "type": "string",
       "enum": ["IN", "OUT"]
@@ -17,5 +21,5 @@
     }
   },
   "additionalParameters": false,
-  "required": ["id", "type", "value"]
+  "required": ["id", "user-id", "type", "value"]
 }

@@ -19,7 +19,7 @@
       (is (= 0 (count (fetch))))))
 
   (testing "fetch and save"
-    (let [bucket (atom {}) transaction (->Transaction (uuid) "IN" 0.01)]
+    (let [bucket (atom {}) transaction (->Transaction (uuid) (uuid) "IN" 0.01)]
       (set-bucket bucket)
       (is (= 0 (count (fetch))))
       (is (= transaction (save transaction)))
@@ -27,7 +27,7 @@
       (is (= transaction (find (:id transaction))))))
 
   (testing "fetch and save multiple"
-    (let [bucket (atom {}) transactionA (->Transaction (uuid) "IN" 0.01) transactionB (->Transaction (uuid) "OUT" 0.02)]
+    (let [bucket (atom {}) transactionA (->Transaction (uuid) (uuid) "IN" 0.01) transactionB (->Transaction (uuid) (uuid) "OUT" 0.02)]
       (set-bucket bucket)
       (is (= 0 (count (fetch))))
       (save transactionA)
@@ -39,33 +39,34 @@
   (testing "save and delete"
     (let [bucket (atom {}) id (uuid)]
       (set-bucket bucket)
-      (save (->Transaction id "IN" 1.0))
+      (save (->Transaction id (uuid) "IN" 1.0))
       (is (= 1 (count (fetch))))
       (is (= id (delete id)))
       (is (= 0 (count (fetch))))))
 
   (testing "validate"
-    (is (validate (->Transaction (uuid) "IN" 1.0)))
-    (is (thrown? Exception (validate (->Transaction "" "" 0))))
-    (is (thrown? Exception (validate (->Transaction "" "IN" 1.0))))
-    (is (thrown? Exception (validate (->Transaction (uuid) "" 1.0))))
-    (is (thrown? Exception (validate (->Transaction (uuid) "IN" 0))))
-    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->Transaction "" "" 0)))))
+    (is (validate (->Transaction (uuid) (uuid) "IN" 1.0)))
+    (is (thrown? Exception (validate (->Transaction "" "" "" 0))))
+    (is (thrown? Exception (validate (->Transaction "" (uuid) "IN" 1.0))))
+    (is (thrown? Exception (validate (->Transaction (uuid) "" "IN" 1.0))))
+    (is (thrown? Exception (validate (->Transaction (uuid) (uuid) "" 1.0))))
+    (is (thrown? Exception (validate (->Transaction (uuid) (uuid) "IN" 0))))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->Transaction "" "" "" 0)))))
 
   (testing "save with invalid data"
     (let [bucket (atom {})]
       (set-bucket bucket)
-      (is (thrown-with-msg? Exception #"^Invalid Data$" (save (->Transaction "" "" 0))))))
+      (is (thrown-with-msg? Exception #"^Invalid Data$" (save (->Transaction "" "" "" 0))))))
 
   (testing "find with unknown identifier"
-    (let [bucket (atom {}) transaction (->Transaction (uuid) "IN" 1.0)]
+    (let [bucket (atom {}) transaction (->Transaction (uuid) (uuid) "IN" 1.0)]
       (set-bucket bucket)
       (save transaction)
       (is (find (:id transaction)))
       (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid))))))
 
   (testing "delete with unknown identifier"
-    (let [bucket (atom {}) transaction (->Transaction (uuid) "IN" 1.0)]
+    (let [bucket (atom {}) transaction (->Transaction (uuid) (uuid) "IN" 1.0)]
       (set-bucket bucket)
       (save transaction)
       (is (delete (:id transaction)))

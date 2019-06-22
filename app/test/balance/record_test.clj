@@ -13,8 +13,9 @@
         (is (= "John Doe" (:name user))))))
 
   (testing "Transaction"
-    (let [id (uuid)]
-      (let [transaction (->Transaction id "IN" 1.99)]
+    (let [id (uuid) user-id (uuid)]
+      (let [transaction (->Transaction id user-id "IN" 1.99)]
         (is (= id (:id transaction)))
+        (is (= user-id (:user-id transaction)))
         (is (= "IN" (:type transaction)))
         (is (= 1.99 (:value transaction)))))))
