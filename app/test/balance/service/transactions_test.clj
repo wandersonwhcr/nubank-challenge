@@ -3,5 +3,7 @@
             [balance.service.transactions :refer :all]))
 
 (deftest test-transactions
-  (testing "dumb"
-    (is (= true))))
+  (testing "Transaction Record"
+    (let [transaction (->Transaction "IN")]
+      (is (contains? transaction :type))
+      (is (= "IN" (:type transaction))))))
