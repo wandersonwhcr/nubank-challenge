@@ -5,4 +5,5 @@
 (deftest test-util
   (testing "set-uuid"
     (let [element (set-uuid {})]
-      (is (contains? element :id)))))
+      (is (contains? element :id))
+      (is (string? (:id element))))))
