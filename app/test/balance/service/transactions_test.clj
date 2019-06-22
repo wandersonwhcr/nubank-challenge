@@ -84,4 +84,19 @@
         (is (= 2 (count (fetch-by-user user))))
         (is (some #(= transactionA %) (fetch-by-user user)))
         (is (some #(= transactionB %) (fetch-by-user user)))
-        (is (not (some #(= transactionC %) (fetch-by-user user))))))))
+        (is (not (some #(= transactionC %) (fetch-by-user user)))))))
+
+  (testing "find by user"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (let [transactionA (->Transaction (uuid) (:id user) "IN" 1.0)
+            transactionB (->Transaction (uuid) (:id user) "IN" 2.0)]
+        (set-bucket bucket)
+        (save transactionA)
+        (save transactionB)
+        (is (= transactionA (find-by-user user (:id transactionA)))))))
+
+  (testing "find by user with unknown identifier"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (set-bucket bucket)
+      (save (->Transaction (uuid) (:id user) "IN" 1.0))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find-by-user user (uuid)))))))

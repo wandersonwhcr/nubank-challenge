@@ -60,6 +60,15 @@
     (has? id)
     (get @bucket id)))
 
+(defn find-by-user
+  "Finds Transaction by User by Identifier"
+  [user id]
+  (do
+    (has? id)
+    (when (not (= (:id user) (:user-id (get @bucket id))))
+      (throw (ex-info "Unknown Identifier" {:type :transaction-unknown-identifier :id id})))
+    (get @bucket id)))
+
 (defn delete
   "Deletes Transaction by Identifier"
   [id]
