@@ -13,25 +13,29 @@
   [a-bucket] (def bucket a-bucket))
 
 (defn get-bucket
-  "Access Current User Bucket"
+  "Accesses Current User Bucket"
   [] bucket)
 
 (defn fetch
-  "Fetch Users"
+  "Fetches Users"
   [] (vals @bucket))
 
 (defn save
-  "Save User"
+  "Saves User"
   [user] (do
     (swap! bucket assoc (:id user) user)
     (identity user)))
 
 (defn find
-  "Find User by Identifier"
+  "Finds User by Identifier"
   [id] (get @bucket id))
 
 (defn delete
-  "Delete User"
+  "Deletes User"
   [user] (do
     (swap! bucket dissoc (:id user))
     (identity user)))
+
+(defn valid?
+  "Validates User"
+  [user] true)

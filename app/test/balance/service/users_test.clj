@@ -38,4 +38,6 @@
       (save user)
       (is (= 1 (count (fetch))))
       (is (= user (delete user)))
-      (is (= 0 (count (fetch)))))))
+      (is (= 0 (count (fetch))))))
+  (testing "valid"
+    (is (valid? (->User (uuid) "John Doe")))))
