@@ -21,7 +21,9 @@
       (assoc :id id)
       (map->User)
       (users-service/save))
-    (created (str "/v1/users/" id))))
+    (->
+      (created (str "/v1/users/" id))
+      (header "X-Resource-Identifier" id))))
 
 (defn find
   "Find Action"

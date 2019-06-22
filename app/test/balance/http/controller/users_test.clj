@@ -21,7 +21,9 @@
       (let [response (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "John Doe"})))]
         (is (= 201 (:status response)))
         (is (nil? (:body response)))
-        (is (string? (get-in response [:headers "Location"]))))))
+        (is (string? (get-in response [:headers "Location"])))
+        (is (string? (get-in response [:headers "X-Resource-Identifier"])))
+        (is (= (get-in response [:headers "Location"]) (str "/v1/users/" (get-in response [:headers "X-Resource-Identifier"])))))))
 
   (testing "save and fetch"
     (let [users-bucket (atom {})]
