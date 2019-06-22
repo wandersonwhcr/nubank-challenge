@@ -58,8 +58,8 @@
     (get @bucket id)))
 
 (defn delete
-  "Deletes User"
-  [user] (do
-    (has? (:id user))
-    (swap! bucket dissoc (:id user))
-    (identity user)))
+  "Deletes User by Identifier"
+  [id] (do
+    (has? id)
+    (swap! bucket dissoc id)
+    (identity id)))

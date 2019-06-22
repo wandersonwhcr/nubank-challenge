@@ -33,11 +33,11 @@
       (is (= userA (find (:id userA))))
       (is (= userB (find (:id userB))))))
   (testing "save and delete"
-    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+    (let [bucket (atom {}) id (uuid)]
       (set-bucket bucket)
-      (save user)
+      (save (->User id "John Doe"))
       (is (= 1 (count (fetch))))
-      (is (= user (delete user)))
+      (is (= id (delete id)))
       (is (= 0 (count (fetch))))))
   (testing "validate"
     (is (validate (->User (uuid) "John Doe")))
@@ -55,8 +55,8 @@
       (is (find (:id user)))
       (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid))))))
   (testing "delete with unknown user"
-    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+    (let [bucket (atom {}) id (uuid)]
       (set-bucket bucket)
-      (save user)
-      (is (delete user))
+      (save (->User id "John Doe"))
+      (is (delete id))
       (is (thrown-with-msg? Exception #"^Unknown Identifier$" (delete (uuid)))))))
