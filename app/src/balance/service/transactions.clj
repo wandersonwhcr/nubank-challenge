@@ -1,5 +1,6 @@
 (ns balance.service.transactions
-  "Balance Transactions Service Layer")
+  "Balance Transactions Service Layer"
+  (:refer-clojure :exclude [find]))
 
 (defrecord Transaction [id type value])
 
@@ -25,3 +26,7 @@
   (do
     (swap! bucket assoc (:id transaction) transaction)
     (identity transaction)))
+
+(defn find
+  "Finds Transaction by Identifier"
+  [id] (get @bucket id))

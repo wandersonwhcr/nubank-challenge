@@ -1,4 +1,5 @@
 (ns balance.service.transactions-test
+  (:refer-clojure :exclude [find])
   (:require [clojure.test :refer :all]
             [balance.util :refer [uuid]]
             [balance.service.transactions :refer :all]))
@@ -26,4 +27,5 @@
       (set-bucket bucket)
       (is (= 0 (count (fetch))))
       (is (= transaction (save transaction)))
-      (is (= 1 (count (fetch)))))))
+      (is (= 1 (count (fetch))))
+      (is (= transaction (find (:id transaction)))))))
