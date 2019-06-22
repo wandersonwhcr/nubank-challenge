@@ -43,4 +43,11 @@
 
 (defn validate
   "Validates User"
-  [user] (json/validate schema user))
+  [user]
+  (try
+    (json/validate schema user)
+    (catch Exception e (->>
+      (ex-data e)
+      (merge {:type :user-invalid-data})
+      (ex-info "Invalid Data")
+      (throw)))))

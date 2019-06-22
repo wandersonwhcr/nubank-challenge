@@ -42,4 +42,5 @@
   (testing "valid"
     (is (validate (->User (uuid) "John Doe")))
     (is (thrown? Exception (validate (->User "" "John Doe"))))
-    (is (thrown? Exception (validate (->User (uuid) ""))))))
+    (is (thrown? Exception (validate (->User (uuid) ""))))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->User "" ""))))))
