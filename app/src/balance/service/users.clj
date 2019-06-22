@@ -25,9 +25,21 @@
   "Fetches Users"
   [] (vals @bucket))
 
+(defn validate
+  "Validates User"
+  [user]
+  (try
+    (json/validate schema user)
+    (catch Exception e (->>
+      (ex-data e)
+      (merge {:type :user-invalid-data})
+      (ex-info "Invalid Data")
+      (throw)))))
+
 (defn save
   "Saves User"
   [user] (do
+    (validate user)
     (swap! bucket assoc (:id user) user)
     (identity user)))
 
@@ -40,14 +52,3 @@
   [user] (do
     (swap! bucket dissoc (:id user))
     (identity user)))
-
-(defn validate
-  "Validates User"
-  [user]
-  (try
-    (json/validate schema user)
-    (catch Exception e (->>
-      (ex-data e)
-      (merge {:type :user-invalid-data})
-      (ex-info "Invalid Data")
-      (throw)))))

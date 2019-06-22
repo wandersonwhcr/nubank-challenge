@@ -39,8 +39,12 @@
       (is (= 1 (count (fetch))))
       (is (= user (delete user)))
       (is (= 0 (count (fetch))))))
-  (testing "valid"
+  (testing "validate"
     (is (validate (->User (uuid) "John Doe")))
     (is (thrown? Exception (validate (->User "" "John Doe"))))
     (is (thrown? Exception (validate (->User (uuid) ""))))
-    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->User "" ""))))))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (->User "" "")))))
+  (testing "save with invalid data"
+    (let [bucket (atom {}) user (->User "" "")]
+      (set-bucket bucket)
+      (is (thrown-with-msg? Exception #"^Invalid Data$" (save user))))))
