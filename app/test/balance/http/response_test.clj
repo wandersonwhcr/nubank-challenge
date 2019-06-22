@@ -5,8 +5,12 @@
 (deftest test-response
   (testing "no-content response"
     (let [response (no-content)]
-      (is (= 204 (response :status)))))
+      (is (= 204 (response :status)))
+      (is (contains? response :headers))
+      (is (contains? response :body))))
   (testing "unprocessable-entity response"
     (let [response (unprocessable-entity {:message "Something Happened"})]
-      (println response)
-      (is (= 422 (response :status))))))
+      (is (= 422 (response :status)))
+      (is (contains? response :headers))
+      (is (contains? response :body))
+      (is (= "Something Happened" (get-in response [:body :message]))))))
