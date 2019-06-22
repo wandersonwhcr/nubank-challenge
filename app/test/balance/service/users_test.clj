@@ -16,10 +16,19 @@
     (let [bucket (atom {})]
       (set-bucket bucket)
       (is (= 0 (count (fetch))))))
-  (testing "save"
+  (testing "fetch and save"
     (let [bucket (atom {}) user (->User (uuid) "John Doe")]
       (set-bucket bucket)
       (is (= 0 (count (fetch))))
       (is (= user (save user)))
       (is (= 1 (count (fetch))))
-      (is (= user (find (:id user)))))))
+      (is (= user (find (:id user))))))
+  (testing "fetch and save multiple"
+    (let [bucket (atom {}) userA (->User (uuid) "John Doe") userB (->User (uuid) "João da Silva")]
+      (set-bucket bucket)
+      (is (= 0 (count (fetch))))
+      (save userA)
+      (save userB)
+      (is (= 2 (count (fetch))))
+      (is (= userA (find (:id userA))))
+      (is (= userB (find (:id userB)))))))
