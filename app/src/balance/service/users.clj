@@ -21,7 +21,7 @@
 
 (defn fetch
   "Fetches Users"
-  [] (vals @bucket))
+  [] (if (empty? @bucket) [] (vals @bucket)))
 
 (defn validate
   "Validates User"
