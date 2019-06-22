@@ -3,4 +3,4 @@
 
 (defn set-uuid
   "Configures an UUID into Map"
-  [element] {:id (.toString (java.util.UUID/randomUUID))})
+  [element] (merge {:id (.toString (java.util.UUID/randomUUID))} element))
