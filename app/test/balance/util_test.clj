@@ -3,6 +3,8 @@
             [balance.util :refer :all]))
 
 (deftest test-util
+  (testing "uuid"
+    (is (string? (uuid))))
   (testing "set"
     (let [element (set-uuid {})]
       (is (contains? element :id))
