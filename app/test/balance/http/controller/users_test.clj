@@ -68,4 +68,5 @@
             (is (string? (:body response-find)))
             (let [content (json/read-str (:body response-find))]
               (is (map? content))
-              (is (contains? content "id")))))))))
+              (is (contains? content "id"))
+              (is (= (get content "id") (get-in response-save [:headers "X-Resource-Identifier"]))))))))))
