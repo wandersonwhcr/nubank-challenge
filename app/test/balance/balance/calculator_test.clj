@@ -22,9 +22,9 @@
   (testing "validate"
     (let [balance [(->Transaction (uuid) (uuid) "IN" 1.0)
                    (->Transaction (uuid) (uuid) "IN" 2.0)]]
-      (is (validate balance (->Transaction (uuid) (uuid) "IN" 3.0)))))
+      (is (validate (conj balance (->Transaction (uuid) (uuid) "IN" 3.0))))))
 
   (testing "validate invalid transaction"
     (let [balance [(->Transaction (uuid) (uuid) "IN" 1.0)
                    (->Transaction (uuid) (uuid) "IN" 2.0)]]
-      (is (thrown-with-msg? Exception #"^Invalid Data$" (validate balance (->Transaction (uuid) (uuid) "OUT" 4.0)))))))
+      (is (thrown-with-msg? Exception #"^Invalid Data$" (validate (conj balance (->Transaction (uuid) (uuid) "OUT" 4.0))))))))

@@ -21,9 +21,9 @@
     (.floatValue)))
 
 (defn validate
-  "Validate if Transaction is Valid into Balance"
-  [transactions current]
+  "Validate if Transactions Balance is Valid"
+  [transactions]
   (do
-    (when (> 0.0 (calculate (conj transactions current)))
-      (throw (ex-info "Invalid Data" {:type :calculator-invalid-data :id (:id current)}))))
-    (identity current))
+    (when (> 0.0 (calculate transactions))
+      (throw (ex-info "Invalid Data" {:type :calculator-invalid-data}))))
+    (identity transactions))
