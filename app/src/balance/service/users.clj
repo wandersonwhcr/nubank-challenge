@@ -45,7 +45,14 @@
 
 (defn find
   "Finds User by Identifier"
-  [id] (get @bucket id))
+  [id]
+  (do
+    (when (not (contains? @bucket id))
+      (->>
+        {:type :user-unknown-identifier :id id}
+        (ex-info "Unknown Identifier")
+        (throw)))
+    (get @bucket id)))
 
 (defn delete
   "Deletes User"

@@ -47,4 +47,10 @@
   (testing "save with invalid data"
     (let [bucket (atom {}) user (->User "" "")]
       (set-bucket bucket)
-      (is (thrown-with-msg? Exception #"^Invalid Data$" (save user))))))
+      (is (thrown-with-msg? Exception #"^Invalid Data$" (save user)))))
+  (testing "find with unknown user"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (set-bucket bucket)
+      (save user)
+      (is (find (:id user)))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid)))))))
