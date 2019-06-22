@@ -26,7 +26,7 @@
 
 (defn fetch
   "Fetches Transactions"
-  [] (vals @bucket))
+  [] (if (empty? @bucket) [] (vals @bucket)))
 
 (defn fetch-by-user
   "Fetches Transactions by User"

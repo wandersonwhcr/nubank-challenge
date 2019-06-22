@@ -16,6 +16,7 @@
   (testing "fetch"
     (let [bucket (atom {})]
       (set-bucket bucket)
+      (is (vector? (fetch)))
       (is (= 0 (count (fetch))))))
 
   (testing "fetch and save"
