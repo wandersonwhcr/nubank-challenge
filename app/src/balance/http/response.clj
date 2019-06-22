@@ -1,6 +1,7 @@
 (ns balance.http.response
-  "Balance HTTP Response")
+  "Balance HTTP Response"
+  (:require [ring.util.response :refer :all]))
 
 (defn no-content
   "HTTP 204 No Content"
-  [] nil)
+  [] (status nil 204))

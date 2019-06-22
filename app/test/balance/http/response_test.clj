@@ -5,4 +5,4 @@
 (deftest test-response
   (testing "no-content response"
     (let [response (no-content)]
-      (is (nil? response)))))
+      (is (= 204 (response :status))))))
