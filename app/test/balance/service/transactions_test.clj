@@ -116,4 +116,15 @@
     (let [bucket (atom {}) user (->User (uuid) "John Doe")]
       (let [transaction (->Transaction (uuid) (:id user) "IN" 1.0)]
         (set-bucket bucket)
-        (is (= transaction (save-by-user user transaction)))))))
+        (is (= transaction (save-by-user user transaction))))))
+
+  (testing "delete by user with breaking changes"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (let [transactionA (->Transaction (uuid) (:id user) "IN" 1.0)
+            transactionB (->Transaction (uuid) (:id user) "IN" 2.0)
+            transactionC (->Transaction (uuid) (:id user) "OUT" 3.0)]
+        (set-bucket bucket)
+        (save-by-user user transactionA)
+        (save-by-user user transactionB)
+        (save-by-user user transactionC)
+        (is (thrown-with-msg? Exception #"^Invalid Data$" (delete-by-user user (:id transactionA))))))))
