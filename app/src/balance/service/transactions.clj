@@ -14,3 +14,7 @@
 (defn get-bucket
   "Accesses Current Transaction Bucket"
   [] bucket)
+
+(defn fetch
+  "Fetches Transactions"
+  [] (vals @bucket))
