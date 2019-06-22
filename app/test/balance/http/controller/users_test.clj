@@ -7,4 +7,5 @@
 (deftest test-users
   (testing "users controller at index action"
     (let [response (app (mock/request :get "/v1/users"))]
-      (is (= 200 (:status response))))))
+      (is (= 200 (:status response)))
+      (is (string? (:body response))))))
