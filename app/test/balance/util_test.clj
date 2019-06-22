@@ -1,6 +1,8 @@
 (ns balance.util-test
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+            [balance.util :refer :all]))
 
 (deftest test-util
-  (testing "dumb"
-    (is (= true true))))
+  (testing "set-uuid"
+    (let [element (set-uuid {})]
+      (is (contains? element :id)))))
