@@ -36,7 +36,7 @@
           (is (contains? (get content 0) "id"))
           (is (= "John Doe" (get-in content [0 "name"])))))))
 
-  (testing "find")
+  (testing "find"
     (let [users-bucket (atom {})]
       (users-service/set-bucket users-bucket)
       (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "John Doe"})))]
@@ -47,3 +47,11 @@
             (is (map? content))
             (is (contains? content "id"))
             (is (= "John Doe" (get content "name"))))))))
+
+  (testing "delete"
+    (let [users-bucket (atom {})]
+      (users-service/set-bucket users-bucket)
+      (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "John Doe"})))]
+        (let [response-delete (app (-> (mock/request :delete (get-in response-save [:headers "Location"]))))]
+          (is (= 204 (:status response-delete)))
+          (is (nil? (:body response-delete))))))))

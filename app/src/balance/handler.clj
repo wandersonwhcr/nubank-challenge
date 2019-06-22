@@ -11,6 +11,7 @@
   (GET "/v1/users" [] (users/fetch))
   (POST "/v1/users" request (users/save request))
   (GET "/v1/users/:user-id" request (users/find request))
+  (DELETE "/v1/users/:user-id" request (users/delete request))
 
   (route/not-found nil))
 

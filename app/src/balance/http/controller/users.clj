@@ -31,3 +31,13 @@
     (:user-id)
     (users-service/find)
     (response)))
+
+(defn delete
+  "Delete Action"
+  [request]
+  (do
+    (->
+      (:params request)
+      (:user-id)
+      (users-service/delete))
+    (no-content)))
