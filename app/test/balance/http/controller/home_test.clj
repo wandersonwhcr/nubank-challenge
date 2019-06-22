@@ -6,4 +6,5 @@
 (deftest test-home
   (testing "home controller at index action"
     (let [response (app (mock/request :get "/"))]
-      (is (= 200 (:status response))))))
+      (is (= 200 (:status response)))
+      (is (string? (:body response))))))
