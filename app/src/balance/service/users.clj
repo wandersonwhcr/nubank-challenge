@@ -38,21 +38,28 @@
 
 (defn save
   "Saves User"
-  [user] (do
+  [user]
+  (do
     (validate user)
     (swap! bucket assoc (:id user) user)
     (identity user)))
+
+(defn has?
+  "Has User by Identifier?"
+  [id]
+  (when (not (contains? @bucket id))
+    (throw (ex-info "Unknown Identifier" {:type :user-unknown-identifier :id id}))))
 
 (defn find
   "Finds User by Identifier"
   [id]
   (do
-    (when (not (contains? @bucket id))
-      (throw (ex-info "Unknown Identifier" {:type :user-unknown-identifier :id id})))
+    (has? id)
     (get @bucket id)))
 
 (defn delete
   "Deletes User"
   [user] (do
+    (has? (:id user))
     (swap! bucket dissoc (:id user))
     (identity user)))

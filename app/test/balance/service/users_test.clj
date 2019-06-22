@@ -53,4 +53,10 @@
       (set-bucket bucket)
       (save user)
       (is (find (:id user)))
-      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid)))))))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (find (uuid))))))
+  (testing "delete with unknown user"
+    (let [bucket (atom {}) user (->User (uuid) "John Doe")]
+      (set-bucket bucket)
+      (save user)
+      (is (delete user))
+      (is (thrown-with-msg? Exception #"^Unknown Identifier$" (delete (uuid)))))))
