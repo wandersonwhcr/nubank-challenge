@@ -6,4 +6,5 @@
   (testing "set-uuid"
     (let [element (set-uuid {})]
       (is (contains? element :id))
-      (is (string? (:id element))))))
+      (is (string? (:id element)))
+      (is (re-matches #"^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$" (:id element))))))
