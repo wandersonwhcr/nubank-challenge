@@ -5,4 +5,5 @@
 (deftest test-users
   (testing "set-bucket"
     (let [bucket (atom {})]
-      (is (nil? (set-bucket bucket))))))
+      (set-bucket bucket)
+      (is (= bucket (get-bucket))))))

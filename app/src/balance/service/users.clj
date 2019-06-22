@@ -1,6 +1,14 @@
 (ns balance.service.users
   "Balance Users Service Layer")
 
+(def ^:private ^:no-doc bucket
+  "User Bucket"
+  nil)
+
 (defn set-bucket
-  "Configures User Bucket"
-  [bucket] nil)
+  "Configures Current User Bucket"
+  [a-bucket] (def bucket a-bucket))
+
+(defn get-bucket
+  "Access Current User Bucket"
+  [] bucket)
