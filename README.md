@@ -4,13 +4,19 @@ Checks and Balances: A Nubank Challenge!
 
 ## tl;dr
 
-This project defines an API to manage users and transactions, money in or out,
-controlling the balance. It was developed using Clojure as programming language
-and Leiningen for automating and configuration.
+This project defines a RESTful API to manage users and transactions, money in or
+out, controlling the balance. It was developed using Clojure as programming
+language and Leiningen for automating and configuration.
+
+## Getting Started
+
+Nubank's Challenge can be started using `docker-compose`.
 
 ```bash
 docker-compose up
 ```
+
+Everything will be attached locally on port `3000`.
 
 ## Usage
 
