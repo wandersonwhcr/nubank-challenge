@@ -84,6 +84,9 @@ curl http://localhost:3000/v1/users/:userId/balance
 
 ## Testing
 
+This project was designed and developed using TDD as main concept. To execute
+the available tests, call `docker-compose` command and `lein test`.
+
 ```bash
 docker-compose exec api lein test
 ```
