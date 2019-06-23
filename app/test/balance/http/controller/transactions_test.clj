@@ -65,10 +65,19 @@
             (is (nil? (:body response-delete)))
             (is (= 404 (:status response-find))))))))
 
-  (testing "find with unknown user"
+  (testing "find with user unknown identifier"
     (let [response-find (app (-> (mock/request :get "/v1/users/foobar/transactions/bazqux")))]
       (is (= 404 (:status response-find)))
       (is (string? (:body response-find)))
       (let [content (json/read-str (:body response-find))]
         (is (map? content))
-        (is (= "user-unknown-identifier" (get content "type")))))))
+        (is (= "user-unknown-identifier" (get content "type"))))))
+
+  (testing "find with unknown identifier"
+    (let [response-user (initialize)]
+      (let [response-find (app (-> (mock/request :get (location response-user "/transactions/foobar"))))]
+        (is (= 404 (:status response-find)))
+        (is (string? (:body response-find)))
+        (let [content (json/read-str (:body response-find))]
+          (is (map? content))
+          (is (= "transaction-unknown-identifier") (get content "type")))))))
