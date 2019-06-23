@@ -82,6 +82,21 @@ curl http://localhost:3000/v1/users/:userId/transactions/:transactionId \
 curl http://localhost:3000/v1/users/:userId/balance
 ```
 
+## Technologies
+
+Everything was developed using Clojure as programming language, using hashmaps
+on memory to store data from users and transactions.
+
+Ring was choiced as HTTP Server to run this RESTful API, routing requests with
+Compojure. Leiningen is used to automate some development tasks, like testing or
+generating documentation. This source was developed using TDD techniques and
+code coverage.
+
+The project was built with 2 layers: controllers and services. Requests are
+handle on controller layer and service layer process the results, that is
+returned by controller. Input is validated throught Clojure records with JSON
+Schemas.
+
 ## Documentation
 
 Source code documentation isn't available on start. To generate docs, call
