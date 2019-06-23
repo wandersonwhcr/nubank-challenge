@@ -15,6 +15,7 @@
   (DELETE "/v1/users/:user-id" request (users/delete request))
 
   (GET "/v1/users/:user-id/transactions" request (transactions/fetch-by-user request))
+  (POST "/v1/users/:user-id/transactions" request (transactions/save-by-user request))
 
   (route/not-found nil))
 

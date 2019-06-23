@@ -2,6 +2,7 @@
   "Balance HTTP Controller for Transactions"
   (:refer-clojure :exclude [find])
   (:require [ring.util.response :refer :all]
+            [balance.service.users :as users-service]
             [balance.service.transactions :as transactions-service]
             [balance.record :refer :all]
             [balance.util :refer [uuid]]
@@ -9,4 +10,32 @@
 
 (defn fetch-by-user
   "Fetch Action by User"
-  [request] (response []))
+  [request]
+  (try
+    (->
+      (:params request)
+      (:user-id)
+      (users-service/find)
+      (transactions-service/fetch-by-user)
+      (response))
+    (catch Exception e
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        (internal-error)))))
+
+(defn save-by-user
+  "Save Action by User"
+  [request]
+  (try
+    (let [id (uuid)]
+      (let [user (users-service/find (get-in request [:params :user-id]))]
+        (let [data (-> (:body request) (assoc :id id) (assoc :user-id (:id user)))]
+          (let [transaction (map->Transaction data)]
+            (transactions-service/save-by-user user transaction)
+            (->
+              (created (str "/v1/users/" (:id user) id))
+              (header "X-Resource-Identifier" id))))))
+    (catch Exception e
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        (println e)))))

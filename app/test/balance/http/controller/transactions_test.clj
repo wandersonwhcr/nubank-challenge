@@ -26,4 +26,12 @@
         (is (string? (:body response-fetch))
         (let [content (json/read-str (:body response-fetch))]
           (is (vector? content))
-          (is (= 0 (count content))))))))))
+          (is (= 0 (count content)))))))))
+
+  (testing "save"
+    (let [response-user (initialize)]
+      (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))]
+        (is (= 201 (:status response-save)))
+        (is (nil? (:body response-save)))
+        (is (string? (get-in response-save [:headers "Location"])))
+        (is (string? (get-in response-save [:headers "X-Resource-Identifier"])))))))
