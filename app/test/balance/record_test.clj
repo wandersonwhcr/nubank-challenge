@@ -12,7 +12,7 @@
         (is (= id (:id user)))
         (is (= "John Doe" (:name user))))))
 
-  (testing "nvalid ->User"
+  (testing "invalid ->User"
     (is (thrown-with-msg? Exception #"^Invalid Data$" (->User "" ""))))
 
   (testing "invalid map->User"
@@ -25,4 +25,11 @@
         (is (= id (:id transaction)))
         (is (= user-id (:user-id transaction)))
         (is (= "IN" (:type transaction)))
-        (is (= 1.99 (:value transaction)))))))
+        (is (= 1.99 (:value transaction))))))
+
+  (testing "invalid ->Transaction"
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (->Transaction "" "" "" 0))))
+
+  (testing "invalid map->Transaction"
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (map->Transaction {:id "" :user-id "" :type "" :value 0})))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (map->Transaction {:id (uuid) :user-id (uuid) :type "IN" :value 1 :foo "bar"})))))

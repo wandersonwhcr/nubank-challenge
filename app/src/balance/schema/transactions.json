@@ -20,6 +20,6 @@
       "exclusiveMinimum": true
     }
   },
-  "additionalParameters": false,
+  "additionalProperties": false,
   "required": ["id", "user-id", "type", "value"]
 }
