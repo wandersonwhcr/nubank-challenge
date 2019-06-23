@@ -50,4 +50,8 @@
     (let [response-user (initialize)]
       (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))]
         (let [response-find (app (-> (mock/request :get (location response-save ""))))]
-          (is (= 200 (:status response-find))))))))
+          (is (= 200 (:status response-find)))
+          (is (string? (:body response-find)))
+          (let [content (json/read-str (:body response-find))]
+            (is (map? content))
+            (is (= (get-in response-save [:headers "X-Resource-Identifier"]) (get content "id")))))))))
