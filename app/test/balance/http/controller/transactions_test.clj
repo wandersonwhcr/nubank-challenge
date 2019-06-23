@@ -34,4 +34,20 @@
         (is (= 201 (:status response-save)))
         (is (nil? (:body response-save)))
         (is (string? (get-in response-save [:headers "Location"])))
-        (is (string? (get-in response-save [:headers "X-Resource-Identifier"])))))))
+        (is (string? (get-in response-save [:headers "X-Resource-Identifier"]))))))
+
+  (testing "save and fetch"
+    (let [response-user (initialize)]
+      (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))]
+        (let [response-fetch (app (-> (mock/request :get (location response-user "/transactions"))))]
+          (is (= 200 (:status response-fetch)))
+          (is (string? (:body response-fetch)))
+          (let [content (json/read-str (:body response-fetch))]
+            (is (vector? content))
+            (is (= 1 (count content))))))))
+
+  (testing "find"
+    (let [response-user (initialize)]
+      (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))]
+        (let [response-find (app (-> (mock/request :get (location response-save ""))))]
+          (is (= 200 (:status response-find))))))))

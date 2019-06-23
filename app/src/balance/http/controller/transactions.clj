@@ -33,9 +33,21 @@
           (let [transaction (map->Transaction data)]
             (transactions-service/save-by-user user transaction)
             (->
-              (created (str "/v1/users/" (:id user) id))
+              (created (str "/v1/users/" (:id user) "/transactions/" id))
               (header "X-Resource-Identifier" id))))))
     (catch Exception e
       (case (:type (ex-data e))
         :user-unknown-identifier (not-found (ex-data e))
-        (println e)))))
+        (internal-error)))))
+
+(defn find-by-user
+  "Find Action by User"
+  [request]
+  (try
+    (let [user (users-service/find (get-in request [:params :user-id]))]
+      (let [transaction (transactions-service/find-by-user user (get-in request [:params :transaction-id]))]
+        (response transaction)))
+    (catch Exception e
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        (internal-error)))))
