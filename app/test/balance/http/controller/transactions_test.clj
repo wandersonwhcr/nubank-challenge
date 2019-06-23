@@ -82,12 +82,20 @@
           (is (map? content))
           (is (= "transaction-unknown-identifier") (get content "type"))))))
 
-  (testing "save type without transactions"
+  (testing "save type OUT without transactions"
     (let [response-user (initialize)]
       (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "OUT" :value 1})))]
-        (is (= 422 (:status response-save))))))
+        (is (= 422 (:status response-save)))
+        (is (string? (:body response-save)))
+        (let [content (json/read-str (:body response-save))]
+          (is (map? content))
+          (is (= "calculator-invalid-data" (get content "type")))))))
 
   (testing "save with invalid data"
     (let [response-user (initialize)]
       (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "FOO" :value "BAR"})))]
-        (is (= 422 (:status response-save)))))))
+        (is (= 422 (:status response-save)))
+        (is (string? (:body response-save)))
+        (let [content (json/read-str (:body response-save))]
+          (is (map? content))
+          (is (= "transaction-invalid-data" (get content "type"))))))))
