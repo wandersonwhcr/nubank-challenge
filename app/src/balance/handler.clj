@@ -22,6 +22,7 @@
 
   (GET "/v1/users/:user-id/balance" request (balance/find-by-user request))
 
+  (route/files "/doc" {:root "target/doc"})
   (route/not-found nil))
 
 (def app
