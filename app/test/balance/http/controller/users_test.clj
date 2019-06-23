@@ -81,4 +81,14 @@
             (is (string? (:body response-fetch)))
             (let [content (json/read-str (:body response-fetch))]
               (is (vector? content))
-              (is (= 2 (count content))))))))))
+              (is (= 2 (count content)))))))))
+
+  (testing "save with invalid data"
+    (let [users-bucket (atom {})]
+      (users-service/set-bucket users-bucket)
+      (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name ""})))]
+        (is (= 422 (:status response-save)))
+        (is (string? (:body response-save)))
+        (let [content (json/read-str (:body response-save))]
+          (is (map? content))
+          (is (contains? content "errors")))))))
