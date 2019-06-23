@@ -1,8 +1,7 @@
 (ns balance.service.transactions
   "Balance Transactions Service Layer"
   (:refer-clojure :exclude [find])
-  (:require [json-schema.core :as json]
-            [balance.balance.calculator :as calculator]))
+  (:require [balance.balance.calculator :as calculator]))
 
 (def ^:private ^:no-doc bucket
   "Transaction Bucket"
