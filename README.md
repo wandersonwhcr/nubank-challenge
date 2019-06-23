@@ -85,7 +85,7 @@ curl http://localhost:3000/v1/users/:userId/balance
 
 Everything was developed using Clojure as programming language, using hashmaps
 on memory to store data from users and transactions. To take advantage of
-functional programming, chaining functions was used.
+functional programming, immutability and chaining functions was used.
 
 Ring was choiced as HTTP Server to run this RESTful API, routing requests with
 Compojure. Leiningen is used to automate some development tasks, like testing or
