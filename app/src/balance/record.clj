@@ -8,7 +8,12 @@
   "User Schema Validation"
   (slurp "src/balance/schema/users.json"))
 
+(defn ->User
+  "User Constructor"
+  [id name] (map->User {:id id :name name}))
+
 (defn map->User
+  "User Constructor by Map"
   [data] (do
     (try
       (json/validate user-schema data)

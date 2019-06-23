@@ -12,8 +12,12 @@
         (is (= id (:id user)))
         (is (= "John Doe" (:name user))))))
 
-  (testing "invalid User"
-    (is (thrown-with-msg? Exception #"^Invalid Data" (map->User {:id "" :name ""}))))
+  (testing "nvalid ->User"
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (->User "" ""))))
+
+  (testing "invalid map->User"
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (map->User {:id "" :name ""})))
+    (is (thrown-with-msg? Exception #"^Invalid Data$" (map->User {:id (uuid) :name "John Doe" :email "foo@bar.com"}))))
 
   (testing "Transaction"
     (let [id (uuid) user-id (uuid)]
