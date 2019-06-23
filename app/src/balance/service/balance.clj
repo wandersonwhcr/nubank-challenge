@@ -1,7 +1,8 @@
 (ns balance.service.balance
-  "Balance Service Layer")
+  "Balance Service Layer"
+  (:require [balance.balance.calculator :as calculator]))
 
 (defn calculate
   "Calculates Balance with Transactions"
   [transactions]
-  (identity {:value 1.0}))
+  (assoc {} :value (calculator/calculate transactions)))

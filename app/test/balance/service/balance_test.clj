@@ -10,4 +10,9 @@
   (testing "calculate"
     (let [transactions [(->Transaction (uuid) (uuid) "IN" 1.0)]]
       (let [balance (balance-service/calculate transactions)]
-        (is (= 1.0 (:value balance)))))))
+        (is (= 1.0 (:value balance))))))
+
+  (testing "calculate without transactions"
+    (let [transactions []]
+      (let [balance (balance-service/calculate transactions)]
+        (is (= 0.0 (:value balance)))))))
