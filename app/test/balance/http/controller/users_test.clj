@@ -91,4 +91,14 @@
         (is (string? (:body response-save)))
         (let [content (json/read-str (:body response-save))]
           (is (map? content))
-          (is (contains? content "errors")))))))
+          (is (contains? content "errors"))))))
+
+  (testing "delete unknown element"
+    (let [users-bucket (atom {})]
+      (users-service/set-bucket users-bucket)
+      (let [response-delete (app (-> (mock/request :delete (str "/v1/users/foobar"))))]
+        (is (= 404 (:status response-delete)))
+        (is (string? (:body response-delete)))
+        (let [content (json/read-str (:body response-delete))]
+          (is (map? content))
+          (is (= "user-unknown-identifier" (get content "type"))))))))

@@ -47,9 +47,14 @@
 (defn delete
   "Delete Action"
   [request]
-  (do
-    (->
-      (:params request)
-      (:user-id)
-      (users-service/delete))
-    (no-content)))
+  (try
+    (do
+      (->
+        (:params request)
+        (:user-id)
+        (users-service/delete))
+      (no-content))
+    (catch Exception e
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        (internal-error)))))
