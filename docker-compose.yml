@@ -1,0 +1,12 @@
+version: "3"
+services:
+  api:
+    image: "clojure:alpine"
+    command: "lein ring server"
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./app:/usr/src/app"
+    working_dir: "/usr/src/app"
+    ports:
+      - "3000:3000"
