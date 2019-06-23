@@ -38,6 +38,7 @@
     (catch Exception e
       (case (:type (ex-data e))
         :user-unknown-identifier (not-found (ex-data e))
+        :calculator-invalid-data (unprocessable-entity (ex-data e))
         (internal-error)))))
 
 (defn find-by-user

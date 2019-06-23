@@ -80,4 +80,9 @@
         (is (string? (:body response-find)))
         (let [content (json/read-str (:body response-find))]
           (is (map? content))
-          (is (= "transaction-unknown-identifier") (get content "type")))))))
+          (is (= "transaction-unknown-identifier") (get content "type"))))))
+
+  (testing "save type without transactions"
+    (let [response-user (initialize)]
+      (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "OUT" :value 1})))]
+        (is (= 422 (:status response-save)))))))
