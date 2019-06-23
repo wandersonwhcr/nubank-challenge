@@ -45,7 +45,7 @@ curl http://localhost:3000/v1/users/:userId/transactions
 ```bash
 curl http://localhost:3000/v1/users/:userId/transactions \
     -X POST \
-    -H 'Content-Type: application/json'
+    -H 'Content-Type: application/json' \
     -d '{"type": "IN", "value": 1.99}'
 ```
 
