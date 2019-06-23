@@ -121,3 +121,8 @@ the available tests, call `docker-compose` command too with `lein test`.
 ```bash
 docker-compose exec api lein test
 ```
+
+## References
+
+* [Clojure Official Homepage](https://clojure.org/)
+* [The Floating Point Guide](https://floating-point-gui.de/)
