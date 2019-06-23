@@ -17,8 +17,8 @@
     (map bigdec)
     ; Summation
     (reduce +)
-    ; Going Back to Float
-    (.floatValue)))
+    ; Going Back to Double
+    (.doubleValue)))
 
 (defn validate
   "Validate if Transactions Balance is Valid"
