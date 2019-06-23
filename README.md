@@ -33,8 +33,35 @@ curl http://localhost:3000/v1/users/:userId
 curl -X DELETE http://localhost:3000/v1/users/:userId
 ```
 
+### List Transactions
+
+```bash
+curl http://localhost:3000/v1/users/:userId/transactions
+```
+
+### Add a Transaction
+
+```bash
+curl http://localhost:3000/v1/users/:userId/transactions \
+    -X POST \
+    -H 'Content-Type: application/json'
+    -d '{"type": "IN", "value": 1.99}'
+```
+
+### Find a Transaction
+
+```bash
+curl http://localhost:3000/v1/users/:userId/transactions/:transactionId
+```
+
+### Delete a Transaction
+
+```bash
+curl -X DELETE http://localhost:3000/v1/users/:userId/transactions/:transactionId
+```
+
 ## Testing
 
 ```bash
- docker-compose exec api lein test
+docker-compose exec api lein test
 ```
