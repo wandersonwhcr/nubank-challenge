@@ -18,4 +18,6 @@
       (balance-service/calculate)
       (response))
     (catch Exception e
-      (internal-error))))
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        (internal-error)))))

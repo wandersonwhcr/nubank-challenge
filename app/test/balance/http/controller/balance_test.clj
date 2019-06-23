@@ -32,4 +32,12 @@
         (is (string? (:body response-find)))
         (let [content (decode response-find)]
           (is (map? content))
-          (is (= 0.0 (get content "value"))))))))
+          (is (= 0.0 (get content "value")))))))
+
+  (testing "find by unknown user"
+    (let [response-find (app (-> (mock/request :get "/v1/users/foobar/balance")))]
+      (is (= 404 (:status response-find)))
+      (is (string? (:body response-find)))
+      (let [content (decode response-find)]
+        (is (map? content))
+        (is (= "user-unknown-identifier" (get content "type")))))))
