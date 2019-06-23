@@ -86,7 +86,7 @@
   (testing "save with invalid data"
     (let [users-bucket (atom {})]
       (users-service/set-bucket users-bucket)
-      (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name ""})))]
+      (let [response-save (app (-> (mock/request :post "/v1/users") (mock/json-body {:name "" :email "foo@bar.com"})))]
         (is (= 422 (:status response-save)))
         (is (string? (:body response-save)))
         (let [content (json/read-str (:body response-save))]
