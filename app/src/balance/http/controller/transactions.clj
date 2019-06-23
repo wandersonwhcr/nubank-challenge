@@ -38,8 +38,9 @@
     (catch Exception e
       (case (:type (ex-data e))
         :user-unknown-identifier (not-found (ex-data e))
+        :transaction-invalid-data (unprocessable-entity (ex-data e))
         :calculator-invalid-data (unprocessable-entity (ex-data e))
-        (internal-error)))))
+        (do (println e) (internal-error))))))
 
 (defn find-by-user
   "Find Action by User"
