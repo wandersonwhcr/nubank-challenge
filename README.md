@@ -82,10 +82,22 @@ curl http://localhost:3000/v1/users/:userId/transactions/:transactionId \
 curl http://localhost:3000/v1/users/:userId/balance
 ```
 
+## Documentation
+
+Source code documentation isn't available on start. To generate docs, call
+`docker-compose` command with `lein codox`.
+
+```bash
+docker-compose exec api lein codox
+```
+
+Browse it using
+[http://localhost:3000/doc/index.html](http://localhost:3000/doc/index.html).
+
 ## Testing
 
 This project was designed and developed using TDD as main concept. To execute
-the available tests, call `docker-compose` command and `lein test`.
+the available tests, call `docker-compose` command too with `lein test`.
 
 ```bash
 docker-compose exec api lein test
