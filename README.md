@@ -88,21 +88,21 @@ on memory to store data from users and transactions. To take advantage of
 functional programming, immutability and chaining functions was used.
 
 Ring was choiced as HTTP Server to run this RESTful API, routing requests with
-Compojure. Leiningen is used to automate some development tasks, like testing or
-generating documentation. This source was developed using TDD techniques and
-code coverage.
+Compojure. Leiningen was used to automate some development tasks, like testing
+or generating documentation. This source was developed using TDD techniques and
+Code Coverage.
 
-This project was designed with SoC through Service-oriented architecture, built
-with 2 layers: controllers and services. Requests are handle on controller layer
-and service layer process the results, that is returned by controller. If the
+This project was designed with SoC and Service-oriented architecture, built with
+2 layers: controllers and services. Requests are handle on controller layer and
+service layer processes the results, that is returned by controller. If the
 request generates an error, the controller handles the exceptions and outputs
 the correct response code. Input is validated through Clojure records and JSON
 Schemas.
 
 To avoid floating point arithmetic problems and execute the correct handling of
-decimal values, a calculator was created, using BigDecimals. Atom variables and
-object locking prevent memory leak, because multiple requests can break the
-balance calculation.
+decimal values, a calculator was created using BigDecimals. Atom variables and
+object locking prevent memory leak, because multiple requests to the same user
+can break the balance calculation.
 
 ## Documentation
 
@@ -124,8 +124,3 @@ the available tests, call `docker-compose` command too with `lein test`.
 ```bash
 docker-compose exec api lein test
 ```
-
-## References
-
-* [Clojure Official Homepage](https://clojure.org/)
-* [The Floating Point Guide](https://floating-point-gui.de/)
