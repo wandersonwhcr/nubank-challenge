@@ -8,10 +8,6 @@
   "Transaction Bucket"
   nil)
 
-(def ^:private schema
-  "Transaction Schema Validation"
-  (slurp "src/balance/schema/transactions.json"))
-
 (def ^:private locker
   "Transaction Locker"
   (Object.))
@@ -33,22 +29,10 @@
   [user]
   (filter #(= (:id user) (:user-id %)) (vals @bucket)))
 
-(defn validate
-  "Validates Transaction"
-  [transaction]
-  (try
-    (json/validate schema transaction)
-    (catch Exception e (->>
-      (ex-data e)
-      (merge {:type :transaction-invalid-data})
-      (ex-info "Invalid Data")
-      (throw)))))
-
 (defn save
   "Saves Transaction"
   [transaction]
   (do
-    (validate transaction)
     (swap! bucket assoc (:id transaction) transaction)
     (identity transaction)))
 
