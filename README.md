@@ -96,6 +96,10 @@ handle on controller layer and service layer process the results, that is
 returned by controller. Input is validated throught Clojure records with JSON
 Schemas.
 
+To avoid floating point arithmetic problems, a calculator was created, using
+BigDecimals. Atom variables and object locking prevent memory leak, because
+multiple requests can break the balance calculation.
+
 ## Documentation
 
 Source code documentation isn't available on start. To generate docs, call
