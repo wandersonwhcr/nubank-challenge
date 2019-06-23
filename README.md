@@ -5,8 +5,7 @@ Checks and Balances: A Nubank Challenge!
 ## tl;dr
 
 This project defines a RESTful API to manage users and transactions, money in or
-out, controlling the balance. It was developed using Clojure as programming
-language and Leiningen for automating and configuration.
+out, controlling the balance. It uses Clojure as programming language.
 
 ## Getting Started
 
