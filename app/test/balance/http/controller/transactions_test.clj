@@ -98,4 +98,12 @@
         (is (string? (:body response-save)))
         (let [content (json/read-str (:body response-save))]
           (is (map? content))
-          (is (= "transaction-invalid-data" (get content "type"))))))))
+          (is (= "transaction-invalid-data" (get content "type")))))))
+
+  (testing "delete and break balance"
+    (let [response-user (initialize)]
+      (let [response-a-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))]
+        (let [response-b-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 2})))]
+          (let [response-c-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "OUT" :value 3})))]
+            (let [response-delete (app (-> (mock/request :delete (location response-a-save ""))))]
+              (is (= 422 (:status response-delete))))))))))

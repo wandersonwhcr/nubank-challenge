@@ -66,4 +66,5 @@
       (case (:type (ex-data e))
         :user-unknown-identifier (not-found (ex-data e))
         :transaction-unknown-identifier (not-found (ex-data e))
+        :calculator-invalid-data (unprocessable-entity (ex-data e))
         (internal-error)))))
