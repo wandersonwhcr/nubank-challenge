@@ -4,7 +4,7 @@
 
 (def ^:private ^:no-doc bucket
   "User Bucket"
-  nil)
+  (atom {}))
 
 (defn set-bucket
   "Configures Current User Bucket"

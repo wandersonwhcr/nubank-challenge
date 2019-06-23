@@ -5,7 +5,7 @@
 
 (def ^:private ^:no-doc bucket
   "Transaction Bucket"
-  nil)
+  (atom {}))
 
 (def ^:private locker
   "Transaction Locker"
