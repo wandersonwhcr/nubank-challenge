@@ -92,10 +92,10 @@ Compojure. Leiningen is used to automate some development tasks, like testing or
 generating documentation. This source was developed using TDD techniques and
 code coverage.
 
-The project was built with 2 layers: controllers and services. Requests are
-handle on controller layer and service layer process the results, that is
-returned by controller. Input is validated throught Clojure records with JSON
-Schemas.
+This project was designed with SoC through Service-oriented architecture, built
+with 2 layers: controllers and services. Requests are handle on controller layer
+and service layer process the results, that is returned by controller. Input is
+validated through Clojure records and JSON Schemas.
 
 To avoid floating point arithmetic problems, a calculator was created, using
 BigDecimals. Atom variables and object locking prevent memory leak, because
