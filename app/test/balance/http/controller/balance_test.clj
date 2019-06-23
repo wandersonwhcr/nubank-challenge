@@ -21,7 +21,8 @@
 
 (defn ^:private decode
   [response]
-  (json/read-str (:body response)))
+  (when (string? (:body response))
+    (json/read-str (:body response))))
 
 (deftest test-transactions
 
@@ -29,7 +30,6 @@
     (let [response-user (initialize)]
       (let [response-find (app (-> (mock/request :get (location response-user "/balance"))))]
         (is (= 200 (:status response-find)))
-        (is (string? (:body response-find)))
         (let [content (decode response-find)]
           (is (map? content))
           (is (= 0.0 (get content "value")))))))
@@ -39,5 +39,12 @@
       (is (= 404 (:status response-find)))
       (is (string? (:body response-find)))
       (let [content (decode response-find)]
-        (is (map? content))
-        (is (= "user-unknown-identifier" (get content "type")))))))
+        (is (= "user-unknown-identifier" (get content "type"))))))
+
+  (testing "find by user with transaction"
+    (let [response-user (initialize)]
+      (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))
+      (let [response-find (app (-> (mock/request :get (location response-user "/balance"))))]
+        (is (= 200 (:status response-find)))
+        (let [content (decode response-find)]
+          (is (= 1.0 (get content "value"))))))))
