@@ -54,4 +54,13 @@
           (is (string? (:body response-find)))
           (let [content (json/read-str (:body response-find))]
             (is (map? content))
-            (is (= (get-in response-save [:headers "X-Resource-Identifier"]) (get content "id")))))))))
+            (is (= (get-in response-save [:headers "X-Resource-Identifier"]) (get content "id"))))))))
+
+  (testing "delete"
+    (let [response-user (initialize)]
+      (let [response-save (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1})))]
+        (let [response-delete (app (-> (mock/request :delete (location response-save ""))))]
+          (let [response-find (app (-> (mock/request :get (location response-save ""))))]
+            (is (= 204 (:status response-delete)))
+            (is (nil? (:body response-delete)))
+            (is (= 404 (:status response-find)))))))))

@@ -50,4 +50,18 @@
     (catch Exception e
       (case (:type (ex-data e))
         :user-unknown-identifier (not-found (ex-data e))
+        :transaction-unknown-identifier (not-found (ex-data e))
+        (internal-error)))))
+
+(defn delete-by-user
+  "Delete Action by User"
+  [request]
+  (try
+    (let [user (users-service/find (get-in request [:params :user-id]))]
+      (let [transaction (transactions-service/delete-by-user user (get-in request [:params :transaction-id]))]
+        (no-content)))
+    (catch Exception e
+      (case (:type (ex-data e))
+        :user-unknown-identifier (not-found (ex-data e))
+        :transaction-unknown-identifier (not-found (ex-data e))
         (internal-error)))))
