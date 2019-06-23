@@ -1,5 +1,7 @@
 # nubank-challenge
 
+Checks and Balances: A Nubank Challenge!
+
 ```bash
 docker-compose up
 ```
