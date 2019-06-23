@@ -4,7 +4,8 @@
             [ring.middleware.json :as json]
             [balance.http.controller.home :as home]
             [balance.http.controller.users :as users]
-            [balance.http.controller.transactions :as transactions]))
+            [balance.http.controller.transactions :as transactions]
+            [balance.http.controller.balance :as balance]))
 
 (defroutes app-routes
   (GET "/" [] (home/index))
@@ -18,6 +19,8 @@
   (POST "/v1/users/:user-id/transactions" request (transactions/save-by-user request))
   (GET "/v1/users/:user-id/transactions/:transaction-id" request (transactions/find-by-user request))
   (DELETE "/v1/users/:user-id/transactions/:transaction-id" request (transactions/delete-by-user request))
+
+  (GET "/v1/users/:user-id/balance" request (balance/find-by-user request))
 
   (route/not-found nil))
 
