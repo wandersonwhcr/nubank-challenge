@@ -64,6 +64,12 @@ curl http://localhost:3000/v1/users/:userId/transactions/:transactionId \
     -X DELETE
 ```
 
+### Find the Balance for User
+
+```bash
+curl http://localhost:3000/v1/users/:userId/balance
+```
+
 ## Testing
 
 ```bash
