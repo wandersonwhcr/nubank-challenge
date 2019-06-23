@@ -30,7 +30,8 @@ curl http://localhost:3000/v1/users/:userId
 ### Delete a User
 
 ```bash
-curl -X DELETE http://localhost:3000/v1/users/:userId
+curl http://localhost:3000/v1/users/:userId \
+    -X DELETE
 ```
 
 ### List Transactions
@@ -57,7 +58,8 @@ curl http://localhost:3000/v1/users/:userId/transactions/:transactionId
 ### Delete a Transaction
 
 ```bash
-curl -X DELETE http://localhost:3000/v1/users/:userId/transactions/:transactionId
+curl http://localhost:3000/v1/users/:userId/transactions/:transactionId \
+    -X DELETE
 ```
 
 ## Testing
