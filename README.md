@@ -2,6 +2,11 @@
 
 Checks and Balances: A Nubank Challenge!
 
+## tl;dr
+
+This project defines an API to manage users and transactions, money in or out,
+controlling the balance.
+
 ```bash
 docker-compose up
 ```
