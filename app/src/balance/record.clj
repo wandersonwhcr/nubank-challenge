@@ -45,4 +45,5 @@
         (ex-data e)
         (merge {:type :transaction-invalid-data})
         (ex-info "Invalid Data")
-        (throw))))))
+        (throw)))))
+    (Transaction. (:id data) (:user-id data) (:type data) (:value data)))
