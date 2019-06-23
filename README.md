@@ -94,8 +94,10 @@ code coverage.
 
 This project was designed with SoC through Service-oriented architecture, built
 with 2 layers: controllers and services. Requests are handle on controller layer
-and service layer process the results, that is returned by controller. Input is
-validated through Clojure records and JSON Schemas.
+and service layer process the results, that is returned by controller. If the
+request generates an error, the controller handles the exceptions and outputs
+the correct response code. Input is validated through Clojure records and JSON
+Schemas.
 
 To avoid floating point arithmetic problems and execute the correct handling of
 decimal values, a calculator was created, using BigDecimals. Atom variables and
