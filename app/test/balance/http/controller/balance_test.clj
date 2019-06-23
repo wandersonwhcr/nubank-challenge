@@ -47,4 +47,14 @@
       (let [response-find (app (-> (mock/request :get (location response-user "/balance"))))]
         (is (= 200 (:status response-find)))
         (let [content (decode response-find)]
-          (is (= 1.0 (get content "value"))))))))
+          (is (= 1.0 (get content "value")))))))
+
+  (testing "find by user with multiple transactions"
+    (let [response-user (initialize)]
+      (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 1.99})))
+      (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "IN" :value 3.01})))
+      (app (-> (mock/request :post (location response-user "/transactions")) (mock/json-body {:type "OUT" :value 1.49})))
+      (let [response-find (app (-> (mock/request :get (location response-user "/balance"))))]
+        (is (= 200 (:status response-find))
+          (let [content (decode response-find)]
+            (is (= 3.51 (get content "value")))))))))
