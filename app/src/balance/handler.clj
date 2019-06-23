@@ -3,7 +3,8 @@
             [compojure.route :as route]
             [ring.middleware.json :as json]
             [balance.http.controller.home :as home]
-            [balance.http.controller.users :as users]))
+            [balance.http.controller.users :as users]
+            [balance.http.controller.transactions :as transactions]))
 
 (defroutes app-routes
   (GET "/" [] (home/index))
@@ -12,6 +13,8 @@
   (POST "/v1/users" request (users/save request))
   (GET "/v1/users/:user-id" request (users/find request))
   (DELETE "/v1/users/:user-id" request (users/delete request))
+
+  (GET "/v1/users/:user-id/transactions" request (transactions/fetch-by-user request))
 
   (route/not-found nil))
 
