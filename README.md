@@ -139,6 +139,7 @@ via response messages, like users not found or invalid transactions.
 
 
 | HTTP Code                 | type                           | Description                                  |
+| ------------------------- | ------------------------------ | -------------------------------------------- |
 | 404 Not Found             | user-unknown-identifier        | User not found                               |
 | 422 Unprocessable Entity  | user-invalid-data              | User with invalid values (see schema)        |
 | 404 Not Found             | transaction-unknown-identifier | Transaction not found                        |
