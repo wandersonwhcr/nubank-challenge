@@ -108,7 +108,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 Content-Length: 119
 
-{"id":"bcd478ed-617b-495d-895a-9a7b55aacba1","user-id":"24f13323-d9d5-410e-a02a-776933115a1c","type":"IN","value":1.99}
+{"id":"bcd478ed-617b-495d-895a-9a7b55aacba1","user-id":"8399f5c7-4d19-41a4-8cf5-9484fa6564eb","type":"IN","value":1.99}
 ```
 
 ### Delete a Transaction
