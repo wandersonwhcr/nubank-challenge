@@ -12,11 +12,12 @@
   "Fetch Action by User"
   [request]
   (try
-    (->
+    (->>
       (:params request)
       (:user-id)
       (users-service/find)
       (transactions-service/fetch-by-user)
+      (map #(dissoc % :user-id)) ; remove user-id
       (response))
     (catch Exception e
       (case (:type (ex-data e))
@@ -48,7 +49,7 @@
   (try
     (let [user (users-service/find (get-in request [:params :user-id]))]
       (let [transaction (transactions-service/find-by-user user (get-in request [:params :transaction-id]))]
-        (response transaction)))
+        (response (dissoc transaction :user-id)))) ; remove user-id
     (catch Exception e
       (case (:type (ex-data e))
         :user-unknown-identifier (not-found (ex-data e))
