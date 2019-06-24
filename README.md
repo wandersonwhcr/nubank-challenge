@@ -19,6 +19,11 @@ Everything will be attached locally on port `3000`.
 
 ## Usage
 
+Users and transactions can be managed using a REST structure. Every available
+request and response are denoted above. Examples are using curl but any HTTP
+client can be used. Resources are identified using random UUID and new resources
+are informed at response headers.
+
 ### List Users
 
 ```bash
