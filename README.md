@@ -11,7 +11,7 @@ out, controlling the balance. It uses Clojure as programming language.
 
 Nubank's Challenge can be started using `docker-compose`.
 
-```bash
+```
 docker-compose up
 ```
 
@@ -26,7 +26,7 @@ are informed at response headers.
 
 ### List Users
 
-```bash
+```
 curl http://localhost:3000/v1/users
 
 HTTP/1.1 200 OK
@@ -38,7 +38,7 @@ Content-Length: 2
 
 ### Add a User
 
-```bash
+```
 curl http://localhost:3000/v1/users \
     -X POST \
     -H 'Content-Type: application/json' \
@@ -52,7 +52,7 @@ Content-Length: 0
 
 ### Find a User
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId
 
 HTTP/1.1 200 OK
@@ -64,7 +64,7 @@ Content-Length: 63
 
 ### Delete a User
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId \
     -X DELETE
 
@@ -75,7 +75,7 @@ Server: Jetty(9.2.21.v20170120)
 
 ### List Transactions
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId/transactions
 
 HTTP/1.1 200 OK
@@ -87,7 +87,7 @@ Content-Length: 2
 
 ### Add a Transaction
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId/transactions \
     -X POST \
     -H 'Content-Type: application/json' \
@@ -101,7 +101,7 @@ Content-Length: 0
 
 ### Find a Transaction
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId/transactions/:transactionId
 
 HTTP/1.1 200 OK
@@ -113,7 +113,7 @@ Content-Length: 119
 
 ### Delete a Transaction
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId/transactions/:transactionId \
     -X DELETE
 
@@ -122,7 +122,7 @@ HTTP/1.1 204 No Content
 
 ### Find the Balance for User
 
-```bash
+```
 curl http://localhost:3000/v1/users/:userId/balance
 
 HTTP/1.1 200 OK
@@ -160,7 +160,7 @@ can break the balance calculation.
 Source code documentation isn't available on start. To generate docs, call
 `docker-compose` command with `lein codox`.
 
-```bash
+```
 docker-compose exec api lein codox
 ```
 
@@ -172,6 +172,6 @@ Browse it using
 This project was designed and developed using TDD as main concept. To execute
 the available tests, call `docker-compose` command too with `lein test`.
 
-```bash
+```
 docker-compose exec api lein test
 ```
