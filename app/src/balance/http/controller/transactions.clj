@@ -41,7 +41,7 @@
         :user-unknown-identifier (not-found (ex-data e))
         :transaction-invalid-data (unprocessable-entity (ex-data e))
         :calculator-invalid-data (unprocessable-entity (ex-data e))
-        (do (println e) (internal-error))))))
+        (internal-error)))))
 
 (defn find-by-user
   "Find Action by User"
